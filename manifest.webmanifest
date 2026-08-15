@@ -1,0 +1,19 @@
+{
+  "name": "Mousse en herbe — A'Why",
+  "short_name": "Mousse en herbe",
+  "description": "Les fondamentaux de la voile avant d'embarquer sur A'Why. Association AWA.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#E7EDE8",
+  "theme_color": "#E7EDE8",
+  "categories": ["education", "sports"],
+  "icons": [
+    { "src": "icons/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icone-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

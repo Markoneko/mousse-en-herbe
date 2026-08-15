@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mousse en herbe — A'Why</title>
+<meta name="description" content="Les fondamentaux de la voile avant d'embarquer sur A'Why — association AWA.">
+<meta name="theme-color" content="#E7EDE8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Mousse en herbe">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papier:#E7EDE8; --encre:#12262E; --encre-pale:#5C7480;
+  --magenta:#B81C6B; --babord:#B5322B; --tribord:#1B7A4B;
+  --trait:rgba(18,38,46,.2);
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{background:var(--papier);color:var(--encre);font-family:var(--sans);
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--trait) .5px,transparent .5px),linear-gradient(90deg,var(--trait) .5px,transparent .5px);
+  background-size:64px 64px;}
+.wrap{max-width:700px;margin:0 auto;padding:0 18px}
+
+header{position:sticky;top:0;z-index:30;background:rgba(231,237,232,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--encre)}
+.bandeau{max-width:700px;margin:0 auto;padding:9px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.marque{font-family:var(--serif);font-weight:600;font-size:17px}
+.marque em{font-style:italic;font-weight:400;color:var(--encre-pale)}
+select{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+ background:var(--papier);color:var(--encre);border:1px solid var(--encre);padding:6px 8px;cursor:pointer}
+.jauges{margin-left:auto;display:flex;gap:14px;font-family:var(--mono);font-size:12px;color:var(--encre-pale)}
+.jauges b{color:var(--encre);font-weight:500}
+.btn-carnet{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid var(--encre);padding:6px 10px;cursor:pointer}
+.btn-carnet:hover{background:var(--encre);color:var(--papier)}
+
+.deck{position:relative;min-height:66vh;padding:26px 0 10px;perspective:1400px}
+.page{display:none}
+.page.actif{display:block;animation:tourne .42s cubic-bezier(.2,.7,.3,1) both;transform-origin:left center}
+@keyframes tourne{from{opacity:0;transform:translateX(26px) rotateY(-9deg)}to{opacity:1;transform:none}}
+.page.retour.actif{animation:tourne-r .42s cubic-bezier(.2,.7,.3,1) both;transform-origin:right center}
+@keyframes tourne-r{from{opacity:0;transform:translateX(-26px) rotateY(9deg)}to{opacity:1;transform:none}}
+
+.folio{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta);margin-bottom:14px;display:flex;gap:10px;align-items:center}
+.folio::after{content:"";flex:1;height:1px;background:var(--trait)}
+h1{font-family:var(--serif);font-size:clamp(29px,7vw,44px);line-height:1.05;font-weight:600;margin:0 0 14px;letter-spacing:-.02em}
+h1 .sous{display:block;font-size:.44em;font-weight:400;font-style:italic;color:var(--encre-pale);margin-top:12px;letter-spacing:0;line-height:1.4}
+.page p{margin:0 0 17px;max-width:58ch}
+.page p.dit{font-family:var(--serif);font-size:20px;font-style:italic}
+.consequence{border:1px solid var(--trait);border-left:3px solid var(--magenta);background:rgba(255,255,255,.55);padding:13px 15px;margin:0 0 20px}
+.consequence .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta);display:block;margin-bottom:5px}
+.regle{border:1px solid var(--encre);background:rgba(255,255,255,.6);padding:15px 17px;margin:0 0 20px}
+.regle .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta);display:block;margin-bottom:7px}
+.regle p:last-child{margin-bottom:0}
+.protocole{font-family:var(--mono);font-size:14px;line-height:2;margin:0 0 18px}
+.protocole span{border:1px solid var(--encre);padding:4px 9px;display:inline-block;margin:0 4px 4px 0;background:rgba(255,255,255,.6)}
+.protocole span.rep{border-color:var(--magenta);color:var(--magenta)}
+.binome{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:0 0 18px;
+ border:1px solid var(--encre);background:rgba(255,255,255,.6);padding:14px}
+.binome b{font-family:var(--serif);font-size:21px;font-weight:600;display:block;margin-bottom:3px}
+.binome span{font-size:14px;color:var(--encre-pale);line-height:1.4;display:block}
+.binome .fleche{font-family:var(--mono);color:var(--magenta);font-size:20px}
+.binome div:last-child{text-align:right}
+.liste{border:1px solid var(--trait);background:rgba(255,255,255,.5);padding:4px 0;margin:0 0 20px}
+.liste div{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:9px 15px;border-bottom:1px solid var(--trait);align-items:baseline}
+.liste div:last-child{border-bottom:0}
+.liste b{font-family:var(--mono);font-size:12px;color:var(--magenta);letter-spacing:.06em;white-space:nowrap}
+.liste span{font-size:15px}
+
+.mot{font:inherit;font-weight:600;color:var(--encre);cursor:pointer;border:0;background:none;padding:0;border-bottom:2px solid var(--magenta)}
+.mot:hover{background:rgba(184,28,107,.12)}
+.mot.vu{border-bottom-style:dotted}
+.mot.bab{color:var(--babord)} .mot.tri{color:var(--tribord)}
+
+.choix{display:flex;flex-direction:column;gap:9px;margin:26px 0 6px}
+.choix button{text-align:left;font:inherit;cursor:pointer;background:rgba(255,255,255,.62);border:1px solid var(--encre);padding:12px 14px 12px 42px;position:relative;transition:transform .12s,background .12s}
+.choix button::before{content:attr(data-lettre);position:absolute;left:0;top:0;bottom:0;width:30px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--papier);background:var(--encre)}
+.choix button:hover:not(:disabled){background:#fff;transform:translateX(3px)}
+.choix button:disabled{opacity:.4;cursor:default}
+.choix button:focus-visible{outline:3px solid var(--magenta);outline-offset:2px}
+.choisi{border-color:var(--magenta)!important;opacity:1!important}
+.choisi::before{background:var(--magenta)}
+.act{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:var(--encre);color:var(--papier);border:0;padding:12px 18px;cursor:pointer}
+.act:hover{background:var(--magenta)}
+
+.nav{position:sticky;bottom:0;background:rgba(231,237,232,.95);backdrop-filter:blur(6px);border-top:1px solid var(--encre);margin-top:24px}
+.nav-in{max-width:700px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+.nav button{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--encre);color:var(--papier);border:0;padding:11px 16px;cursor:pointer}
+.nav button:disabled{opacity:.25;cursor:default}
+.nav button:hover:not(:disabled){background:var(--magenta)}
+.nav .compte{font-family:var(--mono);font-size:12px;color:var(--encre-pale);margin:0 auto}
+
+/* ---------- atelier ---------- */
+.indice{border:1px solid var(--encre);background:rgba(255,255,255,.62);padding:16px 18px;margin:0 0 16px}
+.indice .groupe{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta);display:block;margin-bottom:8px}
+.indice p{margin:0;font-size:17px;max-width:52ch}
+.props{display:flex;flex-direction:column;gap:8px;margin:0 0 14px}
+.props button{text-align:left;font:inherit;cursor:pointer;background:rgba(255,255,255,.62);border:1px solid var(--encre);padding:11px 14px;transition:background .12s}
+.props button:hover:not(:disabled){background:#fff}
+.props button:disabled{cursor:default}
+.props button.juste{background:rgba(27,122,75,.18);border-color:var(--tribord)}
+.props button.faux{background:rgba(181,50,43,.16);border-color:var(--babord);opacity:.75}
+.jauge-atelier{font-family:var(--mono);font-size:12px;color:var(--encre-pale)}
+
+/* ---------- carnet ---------- */
+.carnet-vue{position:fixed;inset:0;z-index:45;background:var(--papier);display:none;overflow:auto;padding:16px 18px 40px}
+.carnet-vue.on{display:block}
+.carnet-in{max-width:660px;margin:0 auto}
+.carnet-tete{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--encre);padding-bottom:8px;margin-bottom:14px}
+.carnet-tete h2{font-family:var(--serif);font-size:22px;font-weight:600;margin:0}
+.carnet-tete .note{font-family:var(--mono);font-size:11px;color:var(--encre-pale);margin-left:auto}
+.carnet-groupe{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta);margin:20px 0 6px}
+.carnet-item{border-bottom:1px solid var(--trait);padding:9px 0;cursor:pointer}
+.carnet-item b{font-family:var(--serif);font-size:18px;font-weight:600}
+.carnet-item.pas-vu{opacity:.38}
+.carnet-item.pas-vu b{font-style:italic}
+.carnet-item em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--encre-pale);margin-left:8px}
+
+.voile-fond{position:fixed;inset:0;background:rgba(18,38,46,.45);z-index:50;display:none}
+.voile-fond.on{display:block}
+.fiche{position:fixed;z-index:60;left:0;right:0;bottom:0;max-height:80vh;overflow:auto;background:var(--papier);border-top:2px solid var(--magenta);padding:22px 22px 28px;transform:translateY(101%);transition:transform .3s}
+.fiche.on{transform:none}
+@media(min-width:800px){.fiche{left:auto;top:0;bottom:0;width:380px;max-height:none;border-top:0;border-left:2px solid var(--magenta);transform:translateX(101%)}}
+.fiche h3{font-family:var(--serif);font-size:27px;margin:5px 0 2px;font-weight:600}
+.fiche .prononce{font-family:var(--mono);font-size:11px;color:var(--magenta);letter-spacing:.12em;text-transform:uppercase}
+.fiche p{max-width:44ch}
+.fiche .astuce{background:rgba(255,255,255,.6);border:1px solid var(--trait);padding:12px 14px;font-size:15px}
+.fermer{position:absolute;top:14px;right:16px;background:none;border:1px solid var(--encre);font-family:var(--mono);font-size:11px;padding:5px 9px;cursor:pointer}
+
+.qcm{margin:0 0 20px}
+.qcm p{font-weight:600;margin:0 0 9px}
+.qcm label{display:block;border:1px solid var(--trait);padding:9px 12px;margin-bottom:5px;cursor:pointer;background:rgba(255,255,255,.6)}
+.qcm label:hover{border-color:var(--encre)}
+.qcm input{margin-right:8px;accent-color:var(--magenta)}
+.badge{text-align:center;padding:16px 6px}
+.sceau{width:134px;height:134px;margin:0 auto 16px;border-radius:50%;border:2px solid var(--magenta);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:15px;font-weight:600;color:var(--magenta);text-align:center;padding:12px;background:repeating-conic-gradient(from 0deg,rgba(184,28,107,.07) 0 6deg,transparent 6deg 12deg);animation:sceau .7s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes sceau{from{transform:scale(.4) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header><div class="bandeau">
+  <span class="marque">Mousse en herbe <em>— A'Why</em></span>
+  <select id="menu-chap" aria-label="Choisir le chapitre">
+    <option value="1">Chapitre 1 — Monter à bord</option>
+    <option value="2">Chapitre 2 — Voiles et bouts</option>
+    <option value="3">Chapitre 3 — Les actions</option>
+    <option value="4">Chapitre 4 — Allures et manœuvres</option>
+    <option value="5">Chapitre 5 — Le retour au port</option>
+  </select>
+  <span class="jauges"><span>Carnet <b id="j-mots">0</b>/<b id="j-total">0</b></span><span>Badges <b id="j-badges">0</b>/5</span></span>
+  <button class="btn-carnet" id="btn-carnet">Carnet</button>
+  <button class="btn-carnet" id="btn-installer" hidden>Installer</button>
+</div></header>
+
+<div class="wrap"><div class="deck" id="deck"></div></div>
+
+<nav class="nav"><div class="nav-in">
+  <button id="prec">← Page précédente</button>
+  <span class="compte" id="compte"></span>
+  <button id="suiv">Page suivante →</button>
+</div></nav>
+
+<div class="carnet-vue" id="carnet-vue"><div class="carnet-in">
+  <div class="carnet-tete">
+    <h2>Le carnet du mousse</h2><span class="note" id="carnet-note"></span>
+    <button class="fermer" style="position:static;margin-left:10px" id="carnet-fermer">Fermer</button>
+  </div>
+  <div id="carnet-corps"></div>
+</div></div>
+
+<div class="voile-fond" id="voile-fond"></div>
+<aside class="fiche" id="fiche" aria-live="polite">
+  <button class="fermer" id="fermer">Fermer</button>
+  <div class="prononce" id="f-cat"></div>
+  <h3 id="f-titre"></h3><p id="f-def"></p>
+  <div class="astuce" id="f-astuce"></div>
+</aside>
+
+<script>
+/* =====================================================================
+   GLOSSAIRE
+   t : titre de fiche (avec article) · n : forme nue (dans le texte)
+   c : catégorie (sert aussi de groupe d'atelier) · d : définition
+   a : astuce · q : indice court utilisé par l'atelier
+   ===================================================================== */
+const G={
+/* ======================= CHAPITRE 1 ======================= */
+ ponton:{ch:1,t:"Le ponton",n:"ponton",c:"Le port",q:"Le trottoir flottant auquel le bateau est amarré, et qui bouge lui aussi.",d:"Le trottoir flottant auquel le bateau est amarré. Il bouge, lui aussi. On y marche, on n'y court pas — surtout avec un sac sur l'épaule.",a:"Règle du port : une main pour toi, une main pour ce que tu portes."},
+ jupe:{ch:1,t:"La jupe",n:"jupe",c:"L'arrière",q:"La plage plate au ras de l'eau, tout à l'arrière : la porte d'entrée du bateau.",d:"La plage plate tout à l'arrière, au ras de l'eau. Sur A'Why le tableau arrière est ouvert : c'est la porte d'entrée du bateau. On embarque par là, rarement en escaladant les côtés.",a:"On dit aussi le tableau arrière pour la paroi qui ferme la coque à l'arrière."},
+ filiere:{ch:1,t:"La filière",n:"filière",c:"La sécurité",q:"Le câble horizontal qui court le long du pont et t'empêche de tomber à l'eau.",d:"Le câble qui court le long du pont, de l'avant à l'arrière, et t'empêche de tomber à l'eau. Elle te retient à hauteur de cuisse — elle ne porte pas ton poids.",a:"Une filière se tient, se longe, s'enjambe. Jamais elle ne se piétine. Ce n'est pas une partie à considérer comme fixe et donc sécurisée."},
+ chandelier:{ch:1,t:"Le chandelier",n:"chandelier",c:"La sécurité",q:"Le montant vertical qui tient le câble de sécurité, comme le piquet d'une clôture.",d:"Le montant métallique vertical qui tient la filière. Il y en a une rangée de chaque côté, comme les piquets d'une clôture.",a:"Chandelier = le piquet. Filière = le fil."},
+ balcon:{ch:1,t:"Le balcon",n:"balcon",c:"La sécurité",q:"L'arceau tubulaire à l'avant et ses deux ailes à l'arrière : le seul point d'appui solide.",d:"L'arceau tubulaire qui ferme le pont à l'avant, et les deux ailes qui l'encadrent à l'arrière. C'est le seul endroit du bord où l'on peut s'accrocher.",a:"Sur A'Why, le balcon avant encadre la zone où se trouve l'ancre."},
+ pataras:{ch:1,t:"Le pataras",n:"pataras",c:"La sécurité",q:"Le câble qui va du sommet du mât au tableau arrière et empêche le mât de basculer.",d:"Le câble qui relie le sommet du mât au tableau arrière et l'empêche de basculer vers l'avant. Il descend pile dans l'axe, au-dessus de la jupe : c'est la première chose que ta main trouve en embarquant.",a:"Il se règle, et c'est même le principal réglage du gréement. Lui, il ne bouge pas."},
+ pont:{ch:1,t:"Le pont",n:"pont",c:"Le bateau",q:"La surface extérieure sur laquelle on marche, entre le roof et les filières.",d:"Toute la surface extérieure sur laquelle on marche, entre le roof et les filières. Il est bombé, souvent mouillé, parfois incliné à trente degrés.",a:"Chaussures fermées à semelle claire en nav. Les tongs pour le port."},
+ roof:{ch:1,t:"Le roof",n:"roof",c:"Le bateau",q:"La partie surélevée au milieu du pont : le plafond de l'intérieur, avec ses hublots.",d:"La partie surélevée au milieu du pont : c'est le plafond de l'intérieur, avec ses hublots. Les cordages y sont renvoyés vers le cockpit.",a:"Prononcer « rouf ». Faux ami : rien à voir avec l'anglais."},
+ descente:{ch:1,t:"La descente",n:"descente",c:"L'intérieur",q:"L'escalier presque vertical qui mène du cockpit à l'intérieur.",d:"L'escalier presque vertical qui mène du cockpit à l'intérieur, sous le capot coulissant à l'arrière du roof.",a:"En mer, on descend toujours avec précaution. Toujours."},
+ carre:{ch:1,t:"Le carré",n:"carré",c:"L'intérieur",q:"La pièce à vivre en bas : table, banquettes, cartes étalées.",d:"La pièce à vivre en bas : table, banquettes, cartes étalées, café renversé. Le salon du bateau.",a:"Il s'appelle carré parce qu'il l'était, sur les navires d'autrefois. Il ne l'est plus."},
+ cockpit:{ch:1,t:"Le cockpit",n:"cockpit",c:"L'arrière",q:"Le creux entouré de bancs où l'équipage se tient et manœuvre.",d:"Le creux à l'arrière où l'équipage se tient et manœuvre, entouré de ses bancs et contenant la barre ou la roue pour diriger le bateau. Poste de travail et salle à manger.",a:"Tout ce qui traîne dans le cockpit finit sous un pied. Rien ne traîne dans le cockpit."},
+ barre:{ch:1,t:"La barre franche",n:"barre franche",c:"L'arrière",q:"Le long levier relié au safran, avec lequel on dirige le bateau.",d:"Le long levier relié à la tête du safran, la pelle immergée qui fait tourner le bateau. Sur A'Why, pas de roue : une barre franche.",a:"Elle marche à l'envers : barre poussée à droite, le bateau part à gauche."},
+ winch:{ch:1,t:"Le winch",n:"winch",c:"Les outils",q:"Le diabolo métallique qui démultiplie ta force pour tendre un cordage.",d:"Le diabolo métallique qui démultiplie ta force pour tendre un cordage. Deux sur le roof pour les manœuvres du mât, deux au milieu du cockpit pour les écoutes avant, deux à l'arrière pour l'écoute de la GV.",a:"Attention, un winch mange les doigts : main à plat, jamais les doigts en crochet."},
+ taquet:{ch:1,t:"Le taquet",n:"taquet",c:"Les outils",q:"La pièce métallique en T sur laquelle on bloque un cordage en huit.",d:"La pièce métallique en forme de T sur laquelle on bloque un cordage en huit. Il y en a à l'avant, au milieu et à l'arrière — c'est là qu'on attache le bateau au ponton.",a:"Un taquet se frappe en huit, jamais en nœud. Il faut pouvoir larguer en trois secondes."},
+ amarre:{ch:1,t:"L'amarre",n:"amarre",c:"Le port",q:"Le cordage qui relie le bateau au ponton et le tient à sa place.",d:"Le cordage qui relie le bateau au ponton. Il y en a plusieurs, chacune avec son nom et son rôle : elles tiennent le bateau à sa place, pas seulement au quai.",a:"À bord, un cordage ne s'appelle jamais une corde. Chacun porte le nom de son métier."},
+ babord:{ch:1,t:"Bâbord",n:"bâbord",c:"Les repères",q:"Le côté gauche du bateau quand on regarde vers l'avant. Feu rouge.",d:"Le côté gauche du bateau quand on regarde vers l'avant. Toujours. Même assis à l'envers, même la tête en bas.",a:"Dans l'alphabet, B vient avant T : bâbord avant tribord, comme la gauche avant la droite. Feu rouge. Bâbord, la gauche."},
+ tribord:{ch:1,t:"Tribord",n:"tribord",c:"Les repères",q:"Le côté droit du bateau quand on regarde vers l'avant. Feu vert.",d:"Le côté droit du bateau quand on regarde vers l'avant. C'est un repère du bateau, pas de ton corps : il ne change jamais.",a:"Feu vert. Tribord, la droite."},
+
+/* ======================= CHAPITRE 2 ======================= */
+ pointdrisse:{ch:2,t:"Le point de drisse",n:"point de drisse",c:"Les trois points",q:"Le point du haut de la voile, celui par lequel on la fait monter.",d:"Le point du haut de la voile. C'est là qu'on frappe la drisse pour la hisser — et c'est la drisse qui lui donne son nom.",a:"En haut, la drisse. Le nom du point annonce déjà le nom du bout."},
+ pointamure:{ch:2,t:"Le point d'amure",n:"point d'amure",c:"Les trois points",q:"Le point avant et bas de la voile, celui qui reste fixé au bateau.",d:"Le point avant et bas de la voile. Il reste fixé au bateau : au pied de mât pour la grand-voile, à l'étrave pour le foc.",a:"C'est le point qui ne bouge jamais. Les deux autres travaillent, lui tient."},
+ pointecoute:{ch:2,t:"Le point d'écoute",n:"point d'écoute",c:"Les trois points",q:"Le point arrière et bas de la voile, celui qui passe d'un bord à l'autre quand on vire.",d:"Le point arrière et bas de la voile. C'est là qu'on frappe l'écoute, le bout qui règle son ouverture.",a:"C'est le point qui voyage : c'est lui qui passe d'un bord à l'autre quand on vire."},
+ guindant:{ch:2,t:"Le guindant",n:"guindant",c:"Les trois bords",q:"Le bord avant de la voile, le long du mât ou de l'étai.",d:"Le bord avant de la voile, du point de drisse au point d'amure. Il court le long du mât pour la grand-voile, le long de l'étai pour le foc.",a:"C'est le bord qui faseye en premier quand on serre trop le vent."},
+ bordure:{ch:2,t:"La bordure",n:"bordure",c:"Les trois bords",q:"Le bord du bas de la voile, le long de la bôme pour la grand-voile.",d:"Le bord du bas de la voile, du point d'amure au point d'écoute. Pour la grand-voile, elle court le long de la bôme.",a:"Bordure comme le bas d'une jupe. En bas, donc."},
+ chute:{ch:2,t:"La chute",n:"chute",c:"Les trois bords",q:"Le bord arrière de la voile, le seul qui ne soit tenu par rien.",d:"Le bord arrière de la voile, du point de drisse au point d'écoute. C'est le bord libre : il n'est tenu par rien, et c'est lui qui donne la forme.",a:"Elle « tombe » du point de drisse vers l'arrière. D'où le nom."},
+ drisse:{ch:2,t:"La drisse",n:"drisse",c:"Les deux bouts",q:"Le bout qui monte au sommet du mât et fait monter la voile.",d:"Le bout frappé au point de drisse, qui monte au sommet du mât et redescend. C'est lui qui hisse la voile.",a:"Drisse comme « dresser ». Une drisse monte, toujours."},
+ ecoute:{ch:2,t:"L'écoute",n:"écoute",c:"Les deux bouts",q:"Le bout qui règle l'ouverture de la voile : le plus manipulé du bord.",d:"Le bout frappé au point d'écoute, qui règle l'ouverture de la voile. Le plus manipulé de tous les bouts du bord.",a:"Écoute et point d'écoute portent le même nom : c'est toute la logique du chapitre."},
+ grandvoile:{ch:2,t:"La grand-voile",n:"grand-voile",c:"Les deux voiles",q:"La voile arrière, tenue par le mât devant et par la bôme en bas.",d:"La voile arrière, tenue par le mât sur son avant et par la bôme sur son bas. C'est la voile principale, celle qui reste en place le plus longtemps.",a:"On dit « la GV », sans « e » à grand : c'est un vieux féminin qui a survécu."},
+ foc:{ch:2,t:"Le foc",n:"foc",c:"Les deux voiles",q:"La voile avant, hissée le long de l'étai et changée selon la force du vent.",d:"La voile avant, hissée le long de l'étai. A'Why est un bateau de régate : il embarque neuf voiles, et le foc du jour se choisit selon la force du vent. Pas d'enrouleur à bord — un foc se hisse, se creuse, et se change.",a:"Pas d'enrouleur veut dire : on monte à l'avant pour l'affaler et le changer. C'est le poste le plus mouillé du bateau."},
+ bout:{ch:2,t:"Le bout",n:"bout",c:"Le gréement",q:"Le mot du bord pour un cordage. Prononcer « boute ».",d:"Le mot du bord pour un cordage. Prononcer « boute ». À bord il n'y a pas de corde : il y a des bouts, et chacun porte le nom du travail qu'il fait.",a:"Corde est un mot de terrien. Le seul cordage à s'appeler corde à bord, c'est celle de la cloche."},
+ mat:{ch:2,t:"Le mât",n:"mât",c:"Le gréement",q:"Le grand tube vertical, tenu debout par ses câbles.",d:"Le grand tube d'aluminium vertical. Il tient les voiles en l'air et il est lui-même tenu par des câbles : l'étai devant, le pataras derrière, les haubans sur les côtés.",a:"Seul, un mât ne tient pas debout. Ce sont ses câbles qui le tiennent."},
+ bome:{ch:2,t:"La bôme",n:"bôme",c:"Le gréement",q:"Le tube horizontal articulé au mât, qui tient le bas de la grand-voile.",d:"Le tube horizontal articulé au mât, qui tient la bordure de la grand-voile. Elle balaie le cockpit à hauteur de tête quand on change de bord.",a:"Le mot à retenir sur un bateau : « attention la bôme ». On s'accroupit d'abord, on regarde ensuite."},
+ etai:{ch:2,t:"L'étai",n:"étai",c:"Le gréement",q:"Le câble tendu du haut du mât à l'étrave, sur lequel se hisse le foc.",d:"Le câble tendu du haut du mât jusqu'à l'étrave. Il retient le mât vers l'avant, et c'est sur lui que se hisse le foc.",a:"Étai devant, pataras derrière : les deux se répondent, et tendre l'un détend l'autre."},
+
+/* ======================= CHAPITRE 3 ======================= */
+ vent:{ch:3,t:"Le vent",n:"vent",c:"Les deux repères",q:"Le repère mobile du bord : la seule chose qui fasse avancer, et la seule qui ne se voie pas.",d:"La seule chose qui fasse avancer le bateau, et la seule qui ne se voie pas. On le lit sur la girouette en tête de mât, sur les penons des voiles, sur les rides de l'eau, sur sa propre nuque.",a:"Première question du bord, avant toutes les autres : d'où vient-il ?"},
+ nord:{ch:3,t:"Le nord",n:"nord",c:"Les deux repères",q:"Le repère fixe du bord : il ne bouge jamais, mais il ne dit rien de ce que fait la voile.",d:"L'autre repère du bord, aussi indispensable que le vent — et son exact complément. Le nord ne bouge jamais : il sert à savoir où l'on va et à tracer une route sur la carte. Le vent bouge tout le temps : il sert à savoir ce que le bateau peut faire.",a:"Deux repères, deux usages. Le nord pour la route, le vent pour la voile. On ne remplace jamais l'un par l'autre."},
+ litduvent:{ch:3,t:"Le lit du vent",n:"lit du vent",c:"Les deux repères",q:"L'axe d'où souffle le vent, et le secteur où le voilier ne peut pas avancer.",d:"L'axe d'où souffle le vent, et le secteur d'environ 45° de part et d'autre où un voilier ne peut pas avancer. Face au vent, les voiles battent et le bateau s'arrête.",a:"C'est le seul cap interdit. Tout le reste du tour d'horizon est navigable."},
+ auvent:{ch:3,t:"Au vent",n:"au vent",c:"Les deux repères",q:"Le côté d'où vient le vent, celui qui se relève à la gîte.",d:"Du côté d'où vient le vent. Le bord au vent d'un bateau est celui qui se relève quand il gîte : c'est là que l'équipage s'assoit.",a:"Au vent = en amont. Le vent y passe avant d'atteindre le bateau."},
+ souslevent:{ch:3,t:"Sous le vent",n:"sous le vent",c:"Les deux repères",q:"Le côté opposé au vent, celui qui plonge à la gîte.",d:"Du côté opposé à celui d'où vient le vent. C'est le côté qui plonge à la gîte, celui vers lequel les voiles se déportent.",a:"Sous le vent = en aval. Un objet tombé à l'eau y dérive."},
+ hisser:{ch:3,t:"Hisser",n:"hisser",c:"Binôme 1 · la drisse",q:"Faire monter la voile en tirant sur sa drisse.",d:"Faire monter la voile en tirant sur sa drisse. Le mouvement est vertical, le long du mât ou de l'étai.",a:"On hisse près du lit du vent : une voile qui porte déjà ne monte plus."},
+ affaler:{ch:3,t:"Affaler",n:"affaler",c:"Binôme 1 · la drisse",q:"Faire descendre la voile en libérant sa drisse, sans jamais la lâcher.",d:"Faire descendre la voile en libérant sa drisse. L'inverse exact de hisser.",a:"Affaler n'est pas lâcher : on accompagne, sinon la voile tombe à l'eau et le tissu passe sous la coque."},
+ border:{ch:3,t:"Border",n:"border",c:"Binôme 2 · l'écoute",q:"Tirer sur l'écoute pour rapprocher la voile de l'axe du bateau.",d:"Tirer sur l'écoute pour rapprocher la voile de l'axe du bateau. La voile se referme, se tend, et travaille davantage.",a:"Border, c'est ramener vers soi. Le mot vient de « bord » : on ramène la voile vers le bord."},
+ choquer:{ch:3,t:"Choquer",n:"choquer",c:"Binôme 2 · l'écoute",q:"Laisser filer l'écoute pour éloigner la voile de l'axe du bateau.",d:"Laisser filer l'écoute pour éloigner la voile de l'axe du bateau. La voile s'ouvre, se creuse, et finit par faseyer si on va trop loin.",a:"Choquer se fait toujours en gardant le bout en main. Une écoute qui part seule est une écoute perdue."},
+ loffer:{ch:3,t:"Loffer",n:"loffer",c:"Binôme 3 · la barre",q:"Tourner pour rapprocher l'étrave du lit du vent.",d:"Faire tourner le bateau pour rapprocher son étrave du lit du vent. On se rapproche du vent, l'angle se referme.",a:"Loffer et border vont ensemble : quand le bateau se rapproche du vent, les voiles doivent se refermer aussi."},
+ abattre:{ch:3,t:"Abattre",n:"abattre",c:"Binôme 3 · la barre",q:"Tourner pour éloigner l'étrave du lit du vent.",d:"Faire tourner le bateau pour éloigner son étrave du lit du vent. On s'écarte du vent, l'angle s'ouvre.",a:"Abattre et choquer vont ensemble. Abattre sans choquer, c'est coucher le bateau."},
+ faseyer:{ch:3,t:"Faseyer",n:"faseyer",c:"Le signal",q:"Ce que fait une voile qui bat au vent au lieu de porter.",d:"Ce que fait une voile qui bat au vent au lieu de porter, parce qu'elle est trop choquée ou que le bateau serre trop le vent. Elle claque, elle ondule, elle ne tire plus.",a:"Le faseyement est un signal, pas une panne : la voile te dit qu'il faut border, ou abattre."},
+
+/* ======================= CHAPITRE 4 ======================= */
+ allure:{ch:4,t:"L'allure",n:"allure",c:"La notion",q:"L'angle entre l'axe du bateau et le lit du vent.",d:"L'angle entre l'axe du bateau et le lit du vent. Elle ne dépend ni du cap au compas, ni de la vitesse : uniquement de cet angle. Changer d'allure, c'est loffer ou abattre.",a:"L'allure ne se lit pas sur un instrument : elle se lit sur l'angle entre la girouette et l'étrave."},
+ amures:{ch:4,t:"Les amures",n:"amures",c:"La notion",q:"Le bord d'où vient le vent : il donne son nom à la situation du bateau.",d:"Le côté d'où vient le vent donne son nom à la situation : vent venant de tribord, on est tribord amures ; vent venant de bâbord, bâbord amures. C'est la première chose qu'un équipier annonce en croisant un autre bateau.",a:"Tribord amures, la bôme est à bâbord. L'un dit toujours l'autre."},
+ ventdebout:{ch:4,t:"Vent debout",n:"vent debout",c:"Les allures",q:"Face au vent : la seule allure impossible, où le bateau s'arrête.",d:"Étrave pile dans le lit du vent. Les voiles battent, le bateau ralentit puis recule. Ce n'est pas une allure, c'est l'absence d'allure — mais on y passe une seconde à chaque virement de bord.",a:"On dit aussi « dans les cailloux » ou « planté ». Rester vent debout n'arrive qu'aux distraits."},
+ pres:{ch:4,t:"Le près",n:"près",c:"Les allures",q:"L'allure la plus serrée : environ 45° du vent, la plus gîtée et la plus mouillée.",d:"L'allure la plus proche du vent qu'un voilier puisse tenir, environ 45°. Voiles bordées à fond, bateau gîté, embruns. C'est l'allure où l'on remonte au vent, et la seule qui demande de tirer des bords.",a:"Serrer le près, c'est loffer jusqu'à la limite du faseyement, puis abattre d'un rien."},
+ travers:{ch:4,t:"Le travers",n:"travers",c:"Les allures",q:"Vent perpendiculaire à l'axe du bateau : l'allure la plus rapide et la plus confortable.",d:"Vent à 90° de l'axe du bateau. Voiles à mi-ouverture. C'est souvent l'allure la plus rapide et la plus agréable : le bateau file droit sans excès de gîte.",a:"Au travers, si tu ne sais pas quoi faire, tu ne fais rien. C'est l'allure la plus stable du tour d'horizon."},
+ largue:{ch:4,t:"Le largue",n:"largue",c:"Les allures",q:"Vent des trois-quarts arrière : voiles largement ouvertes, gîte faible.",d:"Vent venant de l'arrière du travers, entre 90° et 150°. Voiles largement choquées, gîte faible, sensation de calme trompeuse — c'est souvent là qu'on va le plus vite sans s'en rendre compte.",a:"Le calme du largue est trompeur : le vent apparent y est plus faible qu'il n'est réellement."},
+ ventarriere:{ch:4,t:"Le vent arrière",n:"vent arrière",c:"Les allures",q:"Vent pile dans le dos : voiles à fond, et le risque d'empannage sauvage.",d:"Vent venant exactement de l'arrière, à 180°. Les voiles sont choquées à fond, le bateau ne gîte plus. C'est l'allure la plus tranquille en apparence et la plus piégeuse : la bôme peut traverser sans prévenir.",a:"Au vent arrière, on ne quitte pas la bôme des yeux. C'est là que se produisent les empannages sauvages."},
+ louvoyer:{ch:4,t:"Louvoyer",n:"louvoyer",c:"Les manœuvres",q:"Avancer contre le vent en zigzag, puisqu'on ne peut pas y aller droit.",d:"Remonter au vent en enchaînant des bords de près à droite et à gauche du lit du vent, puisqu'on ne peut pas y aller en ligne droite. On dit aussi « tirer des bords ».",a:"Louvoyer double environ la distance parcourue. C'est le prix de la remontée au vent."},
+ virement:{ch:4,t:"Le virement de bord",n:"virement de bord",c:"Les manœuvres",q:"Changer de bord en passant l'étrave dans le lit du vent.",d:"Passer d'un bord à l'autre en faisant traverser le lit du vent par l'étrave. Le bateau loffe, passe vent debout sur son élan, et repart de l'autre côté. Les voiles d'avant changent de côté, la bôme suit toute seule.",a:"Un virement se fait avec de la vitesse : sans élan, le bateau reste planté dans le lit du vent."},
+ empannage:{ch:4,t:"L'empannage",n:"empannage",c:"Les manœuvres",q:"Changer de bord en passant l'arrière dans le lit du vent : la manœuvre à risque.",d:"Passer d'un bord à l'autre en faisant traverser le lit du vent par l'arrière du bateau. La bôme balaie tout le cockpit d'un coup. Contrôlé, c'est une manœuvre normale ; subi, c'est le principal danger du bord.",a:"On empanne en reprenant l'écoute de GV à fond avant, puis en la relâchant après. Jamais la bôme en roue libre."}
+,
+/* ======================= CHAPITRE 5 ======================= */
+ erre:{ch:5,t:"L'erre",n:"erre",c:"L'approche",q:"La vitesse résiduelle du bateau une fois le moteur débrayé.",d:"La vitesse que le bateau garde quand on ne pousse plus. Onze mètres et cinq tonnes ne s'arrêtent pas net : l'erre se calcule avant d'entrer, pas pendant.",a:"On entre au port à la vitesse à laquelle on accepte de taper. Pas plus vite."},
+ defense:{ch:5,t:"Le pare-battage",n:"pare-battage",c:"L'approche",q:"Le boudin qu'on suspend le long de la coque pour la protéger du quai.",d:"Le boudin gonflable suspendu le long de la coque pour la protéger du quai et des voisins. On les met en place avant d'entrer, à la bonne hauteur et du bon côté.",a:"Personne ne dit le mot en entier : à bord, c'est un parbat. « Défense » se comprend, « pare-choc » n'existe pas."},
+ pendille:{ch:5,t:"La pendille",n:"pendille",c:"L'approche",q:"Le cordage relevé depuis le ponton qui mène à un corps-mort devant la place.",d:"Le cordage qui court du ponton jusqu'à un corps-mort au fond du bassin. En Méditerranée, on l'attrape en arrivant et on la tend à l'avant pour retenir le bateau loin du quai.",a:"Une pendille sort de l'eau couverte de coquillages. Des gants, ou des mains coupées."},
+ briefing:{ch:5,t:"Le briefing",n:"briefing",c:"L'approche",q:"Le tour de parole où chacun reçoit son poste, avant que la manœuvre commence.",d:"Le point que le skipper fait avant d'entrer : qui tient quoi, qui va où, qui parle. Il se fait au large, au calme, une fois pour toutes — dans le port il est trop tard, on ne s'entend plus et personne n'a de main libre.",a:"Une manœuvre de port ratée est presque toujours une manœuvre non briefée."},
+ noeudchaise:{ch:5,t:"Le nœud de chaise",n:"nœud de chaise",c:"Les trois nœuds",q:"La boucle fixe qui ne se serre jamais et se défait toujours, même après effort.",d:"Une boucle qui ne coulisse pas, ne se serre pas sur ce qu'elle entoure, et se dénoue même après avoir été chargée. Le nœud à connaître avant tous les autres : il fait un point d'amarrage, une sangle de secours, une boucle autour de soi.",a:"Le lapin sort du terrier, fait le tour de l'arbre, et rentre au terrier."},
+ tourtaquet:{ch:5,t:"Le tour de taquet",n:"tour de taquet",c:"Les trois nœuds",q:"La façon de bloquer une amarre sur un T, en huit, largable en trois secondes.",d:"Un tour mort à la base, puis des huit croisés autour des cornes. Ce n'est pas un nœud : c'est un enroulement qui tient par friction et se largue instantanément, même sous tension.",a:"Une clé de blocage seulement s'il y a du roulis. Sinon les huit suffisent, et rien ne coince."},
+ noeudcabestan:{ch:5,t:"Le nœud de cabestan",n:"nœud de cabestan",c:"Les trois nœuds",q:"Les deux boucles croisées qui accrochent un bout à un montant en une seconde.",d:"Deux boucles croisées passées sur un chandelier, un piquet ou une barre. Il se fait d'une main, tient tant que la tension est constante, et se défait aussitôt. Le nœud des parbats.",a:"Il glisse si la tension varie : parfait pour un parbat, jamais pour retenir une personne."}
+};
+
+/* --- ordre d'affichage du carnet et des ateliers --- */
+const TERMES={
+ 1:["ponton","amarre","jupe","cockpit","barre","pont","roof","descente","carre","filiere","chandelier","balcon","pataras","winch","taquet","babord","tribord"],
+ 2:["pointdrisse","pointamure","pointecoute","guindant","bordure","chute","drisse","ecoute","grandvoile","foc","bout","mat","bome","etai"],
+ 3:["vent","nord","litduvent","auvent","souslevent","hisser","affaler","border","choquer","loffer","abattre","faseyer"],
+ 4:["allure","amures","ventdebout","pres","travers","largue","ventarriere","louvoyer","virement","empannage"],
+ 5:["erre","defense","pendille","briefing","noeudchaise","tourtaquet","noeudcabestan"]
+};
+
+/* =====================================================================
+   RÉCITS
+   ===================================================================== */
+const M=(id,txt)=>`<button class="mot" data-id="${id}" onclick="ouvrirFiche('${id}')">${txt||G[id].n}</button>`;
+
+const CHAP={
+/* ============================== CHAPITRE 1 ============================== */
+ 1:{titre:"Monter à bord", badge:"Pied marin", depart:"titre", suivant:2,
+  P:{
+ titre:{titre:true,txt:`<h1>Monter à bord<span class="sous">Où l'on découvre qu'un bateau n'a ni devant, ni derrière, ni gauche, ni droite.</span></h1>
+   <p>Tu vas embarquer sur A'Why. Une heure ici t'évitera de passer la première matinée à hocher la tête sans comprendre un mot.</p>
+   <p>Les mots soulignés en magenta s'ouvrent : clique, lis, referme. Ils rentrent dans ton carnet, que tu peux rouvrir à tout moment en haut de l'écran.</p>`,suite:"depart"},
+ depart:{txt:`<p>Neuf heures. Le ${M("ponton")} bouge doucement sous tes pieds, ce qui est déjà une petite surprise. Au bout, un voilier blanc de 35 pieds, un peu penché sur son ombre : A'Why.</p>
+   <p>Une tête sort de l'arrière du bateau. C'est le skipper.</p>
+   <p class="dit">« Salut ! Monte, pose ton sac. Par l'arrière ! »</p>
+   <p>Ton sac pèse quinze kilos. Le bateau est à un mètre du ponton. « Par l'arrière » — soit.</p>`,
+  choix:[{t:"Tu poses le pied sur le câble qui court le long du bateau et tu enjambes.",v:"cable"},
+         {t:"Tu contournes jusqu'à la plage plate, tout au bout, au ras de l'eau.",v:"jupe"},
+         {t:"Tu demandes où exactement.",v:"demande"}]},
+ cable:{cons:`<span class="tag">Ce qui se passe</span>Le câble cède de dix centimètres sous ta chaussure, le petit poteau qui le tient grince, ton sac part en avant et t'emmène avec lui. Tu te rattrapes de justesse à l'arceau métallique. Le skipper n'a rien dit, mais il a fermé les yeux une seconde.`,
+   txt:`<p>Ce câble s'appelle une ${M("filiere")}. Elle est là pour t'empêcher de tomber <em>de côté</em>, pas pour porter ton poids. Les montants verticaux qui la tiennent sont des ${M("chandelier","chandeliers")} : ils plient. L'arceau auquel tu viens de te raccrocher, lui, est un ${M("balcon")}, et celui-là tient bon — c'est le seul endroit du bord conçu pour ça.</p>
+   <p class="dit">« Ressors et repasse par la jupe. »</p>`,suite:"jupe"},
+ demande:{cons:`<span class="tag">Ce qui se passe</span>Le skipper sourit. Personne à bord ne s'est jamais moqué de quelqu'un qui demande. La curiosité est un très joli défaut.`,
+   txt:`<p class="dit">« La plage plate, tout au bout, au ras de l'eau. »</p>`,suite:"jupe"},
+ jupe:{txt:`<p>Cette plage plate au ras de l'eau s'appelle la ${M("jupe")}. Sur A'Why l'arrière est ouvert : c'est la porte d'entrée du bateau. Un pied dessus, une main sur le ${M("balcon","balcon arrière")} ou sur le ${M("pataras")}, et tu es à bord — sans acrobatie.</p>
+   <p>Tu te retrouves dans un creux entouré de bancs, au fond duquel un long levier dépasse. C'est le ${M("cockpit")}, et le levier est la ${M("barre","barre franche")} : c'est avec ça qu'on conduit.</p>
+   <p class="dit">« Pose ton sac, on le rangera en bas tout à l'heure. »</p>`,
+  choix:[{t:"Tu poses le sac sur un des diabolos métalliques, bien à plat.",v:"winch"},
+         {t:"Tu poses le sac au fond du cockpit, au milieu.",v:"milieu"},
+         {t:"Tu poses le sac sur un banc, contre le bord.",v:"banc"}]},
+ winch:{cons:`<span class="tag">Ce qui se passe</span>Le sac tient trois secondes, glisse, et déroule au passage un cordage soigneusement lové. Le skipper le remet en place sans un mot. Tu comprends que c'est loin d'être la meilleure chose à faire.`,
+   txt:`<p>Ce tambour est un ${M("winch")} : le treuil qui démultiplie ta force pour tendre un cordage. Il y en a six à bord — deux sur le ${M("roof")}, deux au milieu du cockpit pour les écoutes avant, deux à l'arrière pour l'écoute de la GV. C'est l'outil le plus puissant du bateau, et rien ne se pose dessus.</p>`,suite:"babordtribord"},
+ milieu:{cons:`<span class="tag">Ce qui se passe</span>Deux minutes plus tard, quelqu'un traverse le cockpit et bute dedans.`,
+   txt:`<p>Le fond du ${M("cockpit")} est un couloir. Au port c'est agaçant ; à la mer, sous gîte, c'est un piège. Tout ce qui traîne finit sous un pied.</p>`,suite:"babordtribord"},
+ banc:{cons:`<span class="tag">Ce qui se passe</span>Le sac reste là où tu l'as mis. Personne ne trébuche. Le skipper hoche la tête.`,
+   txt:`<p>Contre le bord, le passage reste libre. C'est le premier réflexe du bord, et il tient en une phrase : <strong>ce qui traîne au milieu finira sous un pied. Ce qui traîne sur les bords finira à l'eau.</strong></p>`,suite:"babordtribord"},
+ babordtribord:{txt:`<p class="dit">« Tu peux me passer le bout qui est au taquet bâbord ? »</p>
+   <p>Le ${M("taquet")}, tu le vois : la pièce métallique en T où le cordage est bloqué en huit. Il y en a un de chaque côté. « Bâbord », en revanche, tu n'en as aucune idée. Tu regardes à gauche. Puis à droite. Le skipper est assis en face de toi, donc sa gauche est ta droite — ou l'inverse.</p>`,
+  choix:[{t:"Tu prends celui de ta gauche à toi, assis face à l'arrière.",v:"faux"},
+         {t:"Tu te tournes vers l'avant du bateau, et tu prends celui de gauche.",v:"vrai"},
+         {t:"Tu prends celui de la gauche du skipper.",v:"faux"}]},
+ faux:{cons:`<span class="tag">Ce qui se passe</span>Tu tends la main vers le mauvais côté. Ce n'est pas grave : au port. En manœuvre, ça l'est.`,
+   txt:`<p>C'est ici que le bateau cesse de ressembler à une voiture. <button class="mot bab" data-id="babord" onclick="ouvrirFiche('babord')">Bâbord</button> et <button class="mot tri" data-id="tribord" onclick="ouvrirFiche('tribord')">tribord</button> ne sont pas ta gauche et ta droite : ce sont celles <em>du bateau</em>, face à l'avant. Elles ne bougent jamais.</p>
+   <p>Et c'est toute l'astuce, celle qui vaut pour la suite : à bord, <strong>les repères n'appartiennent à personne.</strong> Ni à toi, ni au skipper.</p>`,suite:"final"},
+ vrai:{cons:`<span class="tag">Ce qui se passe</span>Tu te retournes d'abord, tu choisis ensuite. C'est exactement le bon geste.`,
+   txt:`<p><button class="mot bab" data-id="babord" onclick="ouvrirFiche('babord')">Bâbord</button> et <button class="mot tri" data-id="tribord" onclick="ouvrirFiche('tribord')">tribord</button> ne sont pas ta gauche et ta droite : ce sont celles <em>du bateau</em>, face à l'avant. Elles ne bougent jamais — que tu sois assis à l'envers, couché, ou penché par-dessus bord.</p>
+   <p>Et c'est toute l'astuce, celle qui vaut pour la suite : à bord, <strong>les repères n'appartiennent à personne.</strong> Ni à toi, ni au skipper.</p>`,suite:"final"},
+ final:{txt:`<p>Le skipper largue une ${M("amarre")} et te fait signe de descendre poser ton sac. L'escalier raide qui plonge à l'intérieur est la ${M("descente")} — on la prend en marche arrière, comme une échelle quand elle est grande, on descend de face avec précaution quand elle est courte. En bas, la pièce à vivre : le ${M("carre")}.</p>
+   <p>En remontant, tu passes sous le ${M("roof")}, la partie surélevée au milieu du ${M("pont")} : c'est le plafond du carré, vu de dehors.</p>
+   <p class="dit">« Bon. Tu sais monter, poser ton sac et distinguer les deux côtés. Le reste s'apprend en route. »</p>
+   <p>Il ne le dira pas comme ça, mais tu viens de faire le plus dur : tu as arrêté d'appeler les choses par leur forme.</p>`,suite:"atelier"},
+ atelier:{atelier:true},
+ epreuve:{epreuve:true}
+  },
+  Q:[
+   {q:"Le skipper dit : « embarque par la jupe ». Tu vas…",r:["tout à l'arrière, au ras de l'eau","tout à l'avant, sous le balcon","au milieu, en enjambant la filière"],b:0},
+   {q:"Un winch sert à…",r:["attacher le bateau au ponton","démultiplier ta force pour tendre un cordage","poser les sacs pendant la manœuvre"],b:1},
+   {q:"Tu es assis dans le cockpit, dos à l'avant. Bâbord est…",r:["à ta gauche à toi","à ta droite à toi","toujours le côté gauche du bateau, face à l'avant"],b:2},
+   {q:"En embarquant par la jupe, la main se pose sur…",r:["la filière, qui est faite pour ça","le pataras ou le balcon arrière","le premier chandelier venu"],b:1},
+   {q:"Le câble horizontal qui court le long du pont s'appelle…",r:["une amarre","une filière","un taquet"],b:1},
+   {q:"Combien y a-t-il de winchs sur A'Why ?",r:["deux","quatre","six"],b:2}
+  ],
+  seuil:5,
+  fin:"Tu sais monter à bord, poser ton sac et nommer les deux côtés. Chapitre 2 : <em>les voiles et les bouts</em> — comment ce bateau transforme du vent en vitesse."
+ },
+
+/* ============================== CHAPITRE 2 ============================== */
+ 2:{titre:"Les voiles et les bouts", badge:"Nomme les bouts", depart:"titre", suivant:3,
+  P:{
+ titre:{titre:true,txt:`<h1>Les voiles et les bouts<span class="sous">Où l'on découvre que les cordages portent le nom de ce qu'ils tiennent — et que ça change tout.</span></h1>
+   <p>Hier tu savais où poser les pieds. Aujourd'hui il va falloir comprendre ce qu'on te demande, vite, et parfois dans le vent.</p>
+   <p>Une seule idée dans ce chapitre. Elle est simple, et elle rend le reste évident.</p>`,suite:"phrase"},
+ phrase:{txt:`<p>Le bateau sort du port. Le skipper lâche une phrase par-dessus le bruit du moteur.</p>
+   <p class="dit">« Prends le bout qui tient le coin arrière du bas de la voile de devant, et tends-le avec le diabolo métallique de droite. »</p>
+   <p>Tu as compris chaque mot. Tu n'as rien compris à la phrase. Le temps que tu la démontes, on est déjà passé à autre chose.</p>
+   <p>Voilà pourquoi la voile a son vocabulaire. Ce n'est pas du jargon de club : c'est de la compression. La même phrase, à bord, tient en quatre mots.</p>
+   <p class="dit">« Borde l'écoute de foc. »</p>`,suite:"points"},
+ points:{txt:`<p>Pour comprendre ces quatre mots, il faut d'abord regarder une voile. C'est un triangle. Trois points, trois bords, six noms — pas un de plus, et ils suffisent à décrire n'importe quelle voile du monde.</p>
+   <p><strong>Les trois points d'abord.</strong> Ce sont les trois coins, et c'est là qu'on attache les choses.</p>
+   <div class="liste">
+     <div><b>en haut</b><span>${M("pointdrisse","le point de drisse")}</span></div>
+     <div><b>en bas devant</b><span>${M("pointamure","le point d'amure")}</span></div>
+     <div><b>en bas derrière</b><span>${M("pointecoute","le point d'écoute")}</span></div>
+   </div>
+   <p>Lis-les à voix haute. Deux d'entre eux annoncent déjà un cordage — garde ça de côté, on y revient dans deux pages.</p>`,suite:"bords"},
+ bords:{txt:`<p><strong>Les trois bords ensuite.</strong> Ce sont les trois côtés du triangle, du tissu tendu entre deux points. On n'y attache rien.</p>
+   <div class="liste">
+     <div><b>devant</b><span>${M("guindant","le guindant")} — du point de drisse au point d'amure</span></div>
+     <div><b>en bas</b><span>${M("bordure","la bordure")} — du point d'amure au point d'écoute</span></div>
+     <div><b>derrière</b><span>${M("chute","la chute")} — du point d'écoute au point de drisse</span></div>
+   </div>
+   <p>Trois points, trois bords, et rien d'autre pour l'instant. Les points servent à attacher, les bords servent à donner la forme.</p>`,suite:"deuxvoiles"},
+ deuxvoiles:{txt:`<p>Car A'Why en porte deux à la fois. La ${M("grandvoile")}, à l'arrière. Le ${M("foc")}, à l'avant.</p>
+   <p>Le foc n'est pas un meuble. A'Why est un bateau de régate : il embarque neuf voiles dans ses coffres, et le foc du jour se choisit selon la force du vent. Pas d'enrouleur à bord — un foc se hisse, se creuse, et se change quand le temps tourne. C'est le poids des bateaux de course, et c'est aussi leur intérêt.</p>
+   <p>Deux voiles hissées, mais un seul jeu de trois noms de points et trois noms de bords. C'est là que la mécanique se met en place.</p>`,
+  choix:[{t:"Deux voiles × trois points d'attache, ça doit faire six noms de points différents.",v:"six"},
+         {t:"Les mêmes trois noms d'attache servent aux deux voiles, on précise laquelle.",v:"trois"},
+         {t:"Chaque voile a ses propres mots, sans rapport entre elles.",v:"propres"}]},
+ six:{cons:`<span class="tag">Ce qui se passe</span>Ce serait logique. Mais six noms de points à retenir au lieu de trois, pour dire deux fois la même chose — le bord a choisi plus économe.`,
+   txt:`<p>Les trois points gardent leurs trois noms, sur toutes les voiles. Ce qui change, c'est la voile qu'on nomme après : <em>point d'écoute de grand-voile</em>, <em>point d'écoute de foc</em>.</p>`,suite:"regle"},
+ propres:{cons:`<span class="tag">Ce qui se passe</span>Non — et heureusement. Le vocabulaire de la voile est vieux de plusieurs siècles ; il a eu le temps d'être simplifié.`,
+   txt:`<p>Les trois points gardent leurs trois noms, sur toutes les voiles. Ce qui change, c'est la voile qu'on nomme après : <em>point d'écoute de grand-voile</em>, <em>point d'écoute de foc</em>.</p>`,suite:"regle"},
+ trois:{cons:`<span class="tag">Ce qui se passe</span>Exactement. Trois noms de points et trois noms de bords pour toutes les voiles du bateau, et on ajoute laquelle quand il y a un doute.`,
+   txt:`<p>Ce qui donne : <em>point d'écoute de grand-voile</em>, <em>point d'écoute de foc</em>. Le nom du point, puis le nom de la voile.</p>`,suite:"regle"},
+ regle:{txt:`<div class="regle"><span class="tag">La règle du chapitre</span>
+   <p>Un ${M("bout")} prend le nom du <strong>point de la voile</strong> auquel il est frappé, suivi du nom de la <strong>voile</strong> à laquelle il appartient.</p></div>
+   <p>Voilà pourquoi deux des trois points annonçaient un cordage. Celui qui est frappé au point de drisse, et qui monte au sommet du mât pour hisser la voile, s'appelle la ${M("drisse")}. Sur la grand-voile : <em>drisse de grand-voile</em>. Sur le foc : <em>drisse de foc</em>.</p>
+   <p>Celui qui est frappé au point d'écoute, et qui règle l'ouverture, s'appelle l'${M("ecoute")}. <em>Écoute de grand-voile</em>. <em>Écoute de foc</em>.</p>
+   <p>Deux bouts, deux voiles, quatre noms — et pas un mot de plus à apprendre. Le nom du bout, tu le lis sur la voile.</p>`,suite:"test"},
+ test:{txt:`<p>Le skipper te teste, l'air de rien.</p>
+   <p class="dit">« Le bout qui part du coin haut du foc, il s'appelle comment ? »</p>`,
+  choix:[{t:"L'écoute de foc.",v:"rate"},
+         {t:"La drisse de foc.",v:"reussi"},
+         {t:"Le guindant de foc.",v:"bord"}]},
+ rate:{cons:`<span class="tag">Ce qui se passe</span>Le coin haut, c'est le point de drisse — et le point d'écoute est en bas derrière. Bon principe, mauvais point.`,
+   txt:`<p>Point de drisse en haut, donc drisse. Point d'écoute en bas derrière, donc écoute. Rejoue la règle dans ce sens et elle ne rate jamais.</p>`,suite:"greement"},
+ bord:{cons:`<span class="tag">Ce qui se passe</span>Le guindant est un bord de la voile, pas un point — et ce n'est pas un cordage, c'est du tissu.`,
+   txt:`<p>Trois points pour les bouts, trois bords pour la forme. Les cordages se frappent aux points, jamais aux bords.</p>`,suite:"greement"},
+ reussi:{cons:`<span class="tag">Ce qui se passe</span>Sans hésiter. Le skipper ne relève pas, ce qui est sa façon d'approuver.`,
+   txt:`<p>Point de drisse en haut, donc drisse. Nom du point, nom de la voile. Tu n'as rien mémorisé : tu as lu la réponse sur la voile.</p>`,suite:"greement"},
+ greement:{txt:`<p>Un dernier mot sur ce qui tient tout cela en l'air, et qui n'appartient ni aux points ni aux bords : le gréement.</p>
+   <div class="liste">
+     <div><b>vertical</b><span>${M("mat","le mât")}, tenu debout par ses câbles</span></div>
+     <div><b>vers l'avant</b><span>${M("etai","l'étai")}, du haut du mât à l'étrave — le foc s'y hisse</span></div>
+     <div><b>horizontale</b><span>${M("bome","la bôme")}, articulée au mât — la bordure de GV y court</span></div>
+   </div>
+   <p>Trois pièces rigides. Elles ne portent pas de nom de point : ce sont des supports, pas des attaches.</p>`,suite:"paresa"},
+ paresa:{txt:`<p>Reste une dernière chose, et elle n'a rien à voir avec le vocabulaire. Le skipper se tourne vers l'avant.</p>
+   <p class="dit">« Parés à hisser la grand-voile ? »</p>
+   <p>Il attend. Il ne bouge pas. Il ne dira pas un mot de plus tant que quelqu'un n'aura pas répondu.</p>`,
+  choix:[{t:"Tu hoches la tête et tu attrapes la drisse.",v:"muet"},
+         {t:"Tu réponds « Parés ! » à voix haute.",v:"pares"}]},
+ muet:{cons:`<span class="tag">Ce qui se passe</span>Rien ne se passe. Le skipper te regarde. À trois mètres, dans le vent, dos tourné, un hochement de tête n'existe pas.`,
+   txt:`<p>À bord, la voix est le seul canal fiable. On répond, à voix haute, même quand ça paraît idiot — surtout quand ça paraît idiot.</p>`,suite:"protocole"},
+ pares:{cons:`<span class="tag">Ce qui se passe</span>« Envoyez ! » Et la voile monte.`,
+   txt:`<p>Une syllabe, et la manœuvre a démarré. C'est tout ce que le skipper attendait.</p>`,suite:"protocole"},
+ protocole:{txt:`<p>Ces allers-retours ne sont pas de la politesse. C'est un protocole, au sens strict — le même qu'entre deux machines sur un réseau. Un message part, un accusé de réception revient, et rien ne se déclenche avant.</p>
+   <div class="protocole">
+     <span>Parés à ?</span> → <span class="rep">Parés</span> → <span>Envoyez</span> → <span class="rep">C'est fait</span>
+   </div>
+   <p>Quatre temps. La question, l'accusé, l'ordre, le compte rendu. Sans le retour, celui qui a parlé ne sait pas s'il a été entendu, et il doit choisir entre attendre pour rien ou lancer une manœuvre à l'aveugle. Les deux coûtent cher.</p>
+   <p>On reverra ce protocole en détail avec les manœuvres. Pour l'instant, retiens qu'un ordre sans réponse est un ordre qui n'a pas été donné.</p>`,suite:"final"},
+ final:{txt:`<p>Le foc monte à son tour le long de l'étai, mou et claquant, puis se creuse d'un coup quand l'écoute est reprise. Le moteur se tait. Le bateau s'incline un peu et se met à avancer sans bruit, ce qui est toujours une petite surprise, même quand on s'y attendait.</p>
+   <p class="dit">« Tu vois, maintenant je peux te parler. »</p>
+   <p>C'est exactement ça. Le vocabulaire n'était pas une barrière à franchir avant de naviguer : c'était la condition pour qu'on puisse te dire quelque chose d'utile pendant qu'on navigue.</p>`,suite:"atelier"},
+ atelier:{atelier:true},
+ epreuve:{epreuve:true}
+  },
+  Q:[
+   {q:"Les trois points d'une voile sont…",r:["guindant, bordure, chute","point de drisse, point d'amure, point d'écoute","mât, bôme, étai"],b:1},
+   {q:"Les trois bords d'une voile sont…",r:["guindant, bordure, chute","drisse, écoute, amure","mât, bôme, étai"],b:0},
+   {q:"Le point bas et arrière d'une voile s'appelle…",r:["le point de drisse","le point d'amure","le point d'écoute"],b:2},
+   {q:"Le bout frappé au point de drisse de la grand-voile s'appelle…",r:["l'écoute de grand-voile","la drisse de grand-voile","la bordure de grand-voile"],b:1},
+   {q:"« Borde l'écoute de foc » veut dire : agis sur le bout frappé…",r:["au point d'écoute du foc","au point de drisse du foc","au point d'amure du foc"],b:0},
+   {q:"Le point d'amure d'une voile est le point qui…",r:["voyage d'un bord à l'autre","reste fixé au bateau","se hisse en haut du mât"],b:1},
+   {q:"Sur A'Why, la voile d'avant…",r:["s'enroule autour de l'étai quand on n'en veut plus","se hisse, se creuse, et se change selon le vent","reste à poste toute la saison"],b:1},
+   {q:"Le skipper lance « Parés à virer ? ». La bonne conduite est de…",r:["hocher la tête et se tenir prêt","répondre à voix haute","attendre l'ordre suivant sans rien dire"],b:1},
+   {q:"Pourquoi l'écoute et le point d'écoute portent-ils le même nom ?",r:["par hasard historique","parce que le bout prend le nom du point où il est frappé","parce qu'ils sont tous deux à l'arrière du bateau"],b:1}
+  ],
+  seuil:8,
+  fin:"Tu sais lire une voile et nommer les bouts sans les apprendre par cœur. Chapitre 3 : <em>les actions</em> — trois binômes de verbes, et deux repères à ne jamais confondre."
+ },
+
+/* ============================== CHAPITRE 3 ============================== */
+ 3:{titre:"Les actions", badge:"Trois binômes", depart:"titre", suivant:4,
+  P:{
+ titre:{titre:true,txt:`<h1>Les actions<span class="sous">Où l'on découvre que six verbes suffisent — à condition de savoir en permanence d'où vient le vent.</span></h1>
+   <p>Tu sais nommer les objets et les bouts. Il reste à savoir quoi en faire.</p>
+   <p>Six verbes, groupés en trois binômes. Chaque binôme est un couple de contraires, et chaque couple s'applique à un objet précis : la drisse, l'écoute, la barre.</p>`,suite:"question"},
+ question:{txt:`<p>Mais avant les six verbes, une question. Le skipper la pose sans prévenir, à n'importe quel moment de la journée, et il la posera encore la semaine prochaine.</p>
+   <p class="dit">« D'où vient le vent ? »</p>
+   <p>Ce n'est pas une colle. Le ${M("vent")} commande le cap qu'on peut tenir, le réglage des voiles, le côté où s'asseoir, et ce qui se passe si on tourne la barre.</p>`,
+  choix:[{t:"Tu regardes la girouette en tête de mât.",v:"girouette"},
+         {t:"Tu regardes les drapeaux du port, à un mille derrière.",v:"drapeaux"},
+         {t:"Tu tournes lentement la tête jusqu'à sentir le vent également sur les deux joues.",v:"joues"}]},
+ girouette:{cons:`<span class="tag">Ce qui se passe</span>Bonne réponse, et la plus rapide. Un coup d'œil en l'air, la flèche te donne le vent tel que le bateau le ressent.`,
+   txt:`<p>La girouette, les penons cousus sur les voiles, les rides sur l'eau, la sensation sur la nuque : quatre sources, et l'on en croise toujours au moins deux.</p>`,suite:"deuxreperes"},
+ drapeaux:{cons:`<span class="tag">Ce qui se passe</span>Ils te renseignent sur le vent qu'il faisait là-bas, tout à l'heure. À un mille de distance, ce n'est déjà plus le même.`,
+   txt:`<p>Le vent se lit sur le bateau, pas au loin : girouette en tête de mât, penons des voiles, rides sur l'eau à quelques mètres, sensation sur la nuque.</p>`,suite:"deuxreperes"},
+ joues:{cons:`<span class="tag">Ce qui se passe</span>Le vieux réflexe, et il marche. Quand les deux joues reçoivent autant de vent, tu es face à lui.`,
+   txt:`<p>C'est le sens le plus fiable quand on n'a rien d'autre. On le complète d'un coup d'œil à la girouette en tête de mât et aux penons cousus sur les voiles.</p>`,suite:"deuxreperes"},
+ deuxreperes:{txt:`<p>Attention à ne pas surinterpréter cette question. Le vent n'est pas le seul repère du bord : il en est un sur deux. L'autre, c'est le ${M("nord")}.</p>
+   <div class="regle"><span class="tag">Les deux repères</span>
+   <p>Le <strong>nord</strong> est fixe. Il sert à savoir <em>où l'on va</em> : le cap, la route, la carte, le port d'arrivée.</p>
+   <p>Le <strong>vent</strong> bouge. Il sert à savoir <em>ce que le bateau peut faire</em> : les allures possibles, le réglage des voiles, le sens des ordres.</p></div>
+   <p>Un navigateur qui ne connaît que le nord se retrouve à vouloir aller droit là où le voilier ne peut pas aller. Un équipier qui ne connaît que le vent règle très bien des voiles qui l'emmènent nulle part. Les deux repères travaillent ensemble, et aucun ne remplace l'autre.</p>
+   <p>Ce chapitre parle du second, parce que c'est de lui que dépendent les six verbes.</p>`,suite:"lit"},
+ lit:{txt:`<p>Une fois le vent trouvé, trace mentalement son axe. Cet axe s'appelle le ${M("litduvent")}, et c'est la seule direction interdite au voilier : dans un secteur d'environ 45° de part et d'autre, les voiles battent et le bateau s'arrête.</p>
+   <p>Tout le reste du tour d'horizon est navigable. Le lit du vent découpe aussi le bateau en deux : le côté ${M("auvent","au vent")}, d'où vient le vent, celui qui se relève à la gîte et où l'équipage s'assoit ; et le côté ${M("souslevent","sous le vent")}, à l'opposé, celui qui plonge.</p>`,suite:"binome1"},
+ binome1:{txt:`<p>Premier binôme. Il porte sur la <strong>drisse</strong>, et son mouvement est vertical.</p>
+   <div class="binome">
+     <div><b>${M("hisser")}</b><span>La voile monte. On tire sur la drisse.</span></div>
+     <div class="fleche">↕</div>
+     <div><b>${M("affaler")}</b><span>La voile descend. On libère la drisse, en accompagnant.</span></div>
+   </div>
+   <p>Le plus simple des trois : une voile monte, ou elle descend. Il dépend quand même du vent — une voile qui porte déjà ne monte plus, alors on hisse près du lit du vent.</p>`,suite:"binome2"},
+ binome2:{txt:`<p>Deuxième binôme. Il porte sur l'<strong>écoute</strong>, et son mouvement est horizontal : la voile se rapproche de l'axe du bateau, ou s'en éloigne.</p>
+   <div class="binome">
+     <div><b>${M("border")}</b><span>On tire l'écoute. La voile se referme vers l'axe.</span></div>
+     <div class="fleche">↔</div>
+     <div><b>${M("choquer")}</b><span>On laisse filer l'écoute. La voile s'ouvre vers l'extérieur.</span></div>
+   </div>
+   <p>Trop bordée, la voile est plate et le bateau se couche sans avancer. Trop choquée, elle ${M("faseyer","faseye")} : elle bat, elle claque, elle ne tire plus. Entre les deux il y a un réglage juste, et la voile te dit lequel — le faseyement n'est pas une panne, c'est un message.</p>`,suite:"binome3"},
+ binome3:{txt:`<p>Troisième binôme. Il porte sur la <strong>barre</strong>, et c'est le seul qui fasse tourner le bateau lui-même. C'est aussi le seul dont les deux mots n'ont aucun sens sans le vent.</p>
+   <div class="binome">
+     <div><b>${M("loffer")}</b><span>L'étrave se rapproche du lit du vent.</span></div>
+     <div class="fleche">↻</div>
+     <div><b>${M("abattre")}</b><span>L'étrave s'éloigne du lit du vent.</span></div>
+   </div>
+   <p>Relis les deux définitions. Ni gauche, ni droite, ni nord : uniquement « vers le vent » et « loin du vent ». Un même coup de barre s'appelle loffer un jour et abattre le lendemain, selon d'où souffle le vent.</p>
+   <p>C'est là que la question du skipper prend tout son sens. <strong>Sans savoir où est le vent, tu ne peux pas obéir à l'ordre.</strong> Pas parce que tu es débutant : parce que l'ordre ne veut littéralement rien dire.</p>`,suite:"exercice"},
+ exercice:{txt:`<p>Le bateau file. Le vent vient de l'avant tribord, la grand-voile est bien réglée.</p>
+   <p class="dit">« Loffe un peu. »</p>
+   <p>Tu agis sur la barre, l'étrave se rapproche du vent — et aussitôt le guindant de la grand-voile se met à trembler.</p>`,
+  choix:[{t:"Tu bordes l'écoute : la voile se referme.",v:"borde"},
+         {t:"Tu choques l'écoute : la voile s'ouvre et prend plus d'air.",v:"choque"},
+         {t:"Tu abats pour revenir où tu étais.",v:"abat"}]},
+ borde:{cons:`<span class="tag">Ce qui se passe</span>Le tremblement disparaît. Le bateau accélère.`,
+   txt:`<p>Les binômes sont couplés deux à deux. En loffant, tu réduis l'angle entre le vent et le bateau ; la voile doit se refermer d'autant.</p>
+   <div class="regle"><span class="tag">Le couplage</span>
+   <p><strong>Qui loffe borde. Qui abat choque.</strong> Le mouvement de la barre appelle toujours celui de l'écoute, dans le même sens.</p></div>`,suite:"final"},
+ choque:{cons:`<span class="tag">Ce qui se passe</span>La voile bat de plus belle, le bateau ralentit. C'est l'inverse qu'il fallait faire.`,
+   txt:`<p>En loffant, l'angle entre le vent et le bateau se referme ; la voile doit se refermer aussi. Choquer l'ouvre davantage — exactement ce qu'il ne fallait pas.</p>
+   <div class="regle"><span class="tag">Le couplage</span>
+   <p><strong>Qui loffe borde. Qui abat choque.</strong> Le mouvement de la barre appelle toujours celui de l'écoute, dans le même sens.</p></div>`,suite:"final"},
+ abat:{cons:`<span class="tag">Ce qui se passe</span>Ça marche : la voile se retend. Mais tu as annulé l'ordre au lieu de l'exécuter.`,
+   txt:`<p>Abattre était une solution — la mauvaise, puisqu'on te demandait de loffer. La bonne consistait à accompagner : en loffant, l'angle se referme, donc la voile doit se refermer aussi.</p>
+   <div class="regle"><span class="tag">Le couplage</span>
+   <p><strong>Qui loffe borde. Qui abat choque.</strong> Le mouvement de la barre appelle toujours celui de l'écoute, dans le même sens.</p></div>`,suite:"final"},
+ final:{txt:`<p>Six verbes, trois objets, un couplage. C'est tout l'outillage de base, et il tient dans une phrase : <em>on hisse ou on affale avec la drisse, on borde ou on choque avec l'écoute, on loffe ou on abat avec la barre — et les deux derniers vont ensemble.</em></p>
+   <p>Le skipper te regarde en coin.</p>
+   <p class="dit">« D'où vient le vent ? »</p>
+   <p>Cette fois tu réponds sans lever les yeux. Puis, sans qu'on te le demande, tu ajoutes le cap. Les deux repères, ensemble : c'est le vrai signe qu'on commence à naviguer.</p>`,suite:"atelier"},
+ atelier:{atelier:true},
+ epreuve:{epreuve:true}
+  },
+  Q:[
+   {q:"Loffer, c'est faire tourner le bateau pour…",r:["aller vers la droite","rapprocher l'étrave du lit du vent","éloigner l'étrave du lit du vent"],b:1},
+   {q:"Border, c'est agir sur…",r:["la drisse, pour monter la voile","l'écoute, pour refermer la voile vers l'axe","la barre, pour changer de cap"],b:1},
+   {q:"Une voile qui faseye est une voile qui…",r:["bat au vent et ne tire plus","est déchirée","est trop bordée"],b:0},
+   {q:"Le côté au vent d'un bateau est…",r:["celui qui plonge à la gîte","celui d'où vient le vent","toujours tribord"],b:1},
+   {q:"Le skipper dit « abats ». Sur l'écoute, tu dois donc…",r:["border","choquer","ne rien toucher"],b:1},
+   {q:"Quelle est la différence entre le nord et le vent comme repères ?",r:["le nord est fixe et sert à la route, le vent bouge et commande la voile","le nord sert en mer, le vent sert au port","aucune : ce sont deux façons de dire la même chose"],b:0},
+   {q:"Pourquoi « loffer » n'a-t-il aucun sens sans connaître le vent ?",r:["parce que le mot est ambigu en français","parce que le mouvement se définit par rapport au lit du vent","parce qu'il dépend du cap au compas"],b:1},
+   {q:"Affaler une voile, c'est…",r:["la lâcher d'un coup","la faire descendre en accompagnant sa drisse","la border au maximum"],b:1},
+   {q:"Le lit du vent est…",r:["l'endroit où l'on dort à bord","l'axe du vent et le secteur où le voilier ne peut pas avancer","le côté sous le vent du bateau"],b:1}
+  ],
+  seuil:8,
+  fin:"Tu sais agir, et tu sais à partir de quoi chaque action se compte. Chapitre 4 : <em>les allures et les manœuvres</em> — le tour d'horizon complet, et comment passer d'un bord à l'autre."
+ },
+
+/* ============================== CHAPITRE 4 ============================== */
+ 4:{titre:"Les allures et les manœuvres", badge:"Tour d'horizon", depart:"titre", suivant:5,
+  P:{
+ titre:{titre:true,txt:`<h1>Les allures et les manœuvres<span class="sous">Où le tour d'horizon se découpe en tranches, et où l'on apprend à passer d'un bord à l'autre.</span></h1>
+   <p>Tu sais que le lit du vent est interdit et que tout le reste est navigable. « Tout le reste », ça fait beaucoup : il est temps de le découper.</p>
+   <p>Sept tranches, deux manœuvres. C'est tout le chapitre.</p>`,suite:"notion"},
+ notion:{txt:`<p>Une ${M("allure")}, c'est l'angle entre l'axe du bateau et le lit du vent. Rien d'autre.</p>
+   <p>Pas le cap au compas : on peut faire route au nord à toutes les allures selon d'où souffle le vent. Pas la vitesse : on va parfois plus vite au travers qu'au largue. Juste l'angle.</p>
+   <p>Et puisque cet angle se prend d'un côté ou de l'autre, chaque allure existe en deux exemplaires. C'est ce que disent les ${M("amures")} : vent venant de tribord, on est <em>tribord amures</em> ; vent venant de bâbord, <em>bâbord amures</em>.</p>
+   <div class="regle"><span class="tag">Un réflexe utile</span>
+   <p>Tribord amures, la bôme est sortie à bâbord. Bâbord amures, elle est à tribord. <strong>La bôme est toujours sous le vent</strong> — c'est le moyen le plus rapide de savoir sur quel bord on est, de loin, sur n'importe quel bateau.</p></div>`,suite:"tour"},
+ tour:{txt:`<p>Le tour d'horizon, maintenant, en partant du vent et en s'en éloignant.</p>
+   <div class="liste">
+     <div><b>0°</b><span>${M("ventdebout","vent debout")} — impossible, la voile bat</span></div>
+     <div><b>45°</b><span>${M("pres","le près")} — voiles bordées, bateau gîté, embruns</span></div>
+     <div><b>90°</b><span>${M("travers","le travers")} — voiles à mi-ouverture, rapide et stable</span></div>
+     <div><b>135°</b><span>${M("largue","le largue")} — voiles largement choquées, peu de gîte</span></div>
+     <div><b>180°</b><span>${M("ventarriere","le vent arrière")} — voiles à fond, bôme dangereuse</span></div>
+   </div>
+   <p>Entre les cinq, deux allures intermédiaires que tu entendras souvent : le <em>bon plein</em>, entre le près et le travers, et le <em>grand largue</em>, entre le largue et le vent arrière. Sept en tout, mais les cinq repères suffisent à s'orienter.</p>
+   <p>Remarque le mouvement d'ensemble : <strong>plus on s'écarte du vent, plus on choque.</strong> Les voiles s'ouvrent au fur et à mesure qu'on abat. C'est le couplage du chapitre précédent, appliqué à tout le tour d'horizon.</p>`,suite:"pourquoi"},
+ pourquoi:{txt:`<p>Une conséquence de tout ça, et elle est brutale.</p>
+   <p>Le port est droit dans le vent. Tu voudrais y aller tout droit.</p>`,
+  choix:[{t:"On y va tout droit, en serrant le près au maximum.",v:"droit"},
+         {t:"On y va en zigzag, par bords successifs.",v:"zigzag"},
+         {t:"On allume le moteur, c'est le seul moyen.",v:"moteur"}]},
+ droit:{cons:`<span class="tag">Ce qui se passe</span>Le près monte à 45° du vent, pas à 0°. Droit dans le vent, le bateau s'arrête — quelle que soit ta bonne volonté.`,
+   txt:`<p>Il n'y a qu'une solution : ${M("louvoyer")}. On tire un bord de près à droite du lit du vent, puis un bord à gauche, et de zigzag en zigzag on remonte. La distance double à peu près. C'est le prix de la remontée au vent, et il se paie depuis toujours.</p>`,suite:"virement"},
+ moteur:{cons:`<span class="tag">Ce qui se passe</span>C'est la solution moderne, et parfois la bonne. Mais un voilier sait remonter au vent depuis bien avant le moteur.`,
+   txt:`<p>La solution à la voile s'appelle ${M("louvoyer")} : on tire un bord de près à droite du lit du vent, puis un bord à gauche, et de zigzag en zigzag on remonte. La distance double à peu près. C'est le prix de la remontée au vent.</p>`,suite:"virement"},
+ zigzag:{cons:`<span class="tag">Ce qui se passe</span>Exactement. Et ce zigzag a un nom.`,
+   txt:`<p>Cela s'appelle ${M("louvoyer")}, ou tirer des bords. On enchaîne un bord de près à droite du lit du vent, puis un bord à gauche, et de zigzag en zigzag on remonte. La distance double à peu près. C'est le prix de la remontée au vent.</p>`,suite:"virement"},
+ virement:{txt:`<p>Chaque fois qu'on change de côté du lit du vent, on change d'amures. Cela se fait de deux façons, et une seule est confortable.</p>
+   <p>La première, c'est le ${M("virement","virement de bord")} : l'étrave traverse le lit du vent. Le bateau loffe, les voiles faseyent une seconde, il passe sur son élan et repart de l'autre côté. La bôme change de bord toute seule, doucement, en passant par le milieu.</p>
+   <div class="protocole">
+     <span>Parés à virer ?</span> → <span class="rep">Parés</span> → <span>Envoyez</span> → <span class="rep">Bordé</span>
+   </div>
+   <p>Le protocole du chapitre 2, en situation réelle. Ici il n'est plus une politesse : le bateau perd de la vitesse pendant la traversée du lit du vent, et un équipier en retard sur son écoute, c'est un virement raté.</p>`,suite:"empannage"},
+ empannage:{txt:`<p>La seconde façon, c'est l'${M("empannage")} : c'est l'arrière du bateau qui traverse le lit du vent. On abat au lieu de loffer, on continue à choquer, et à un moment le vent prend la grand-voile de l'autre côté.</p>
+   <p>La bôme balaie alors tout le cockpit, d'un bord à l'autre, à hauteur de tête. Contrôlé, c'est une manœuvre normale qu'on fait plusieurs fois par sortie. Subi, c'est le principal accident du bord.</p>`,
+  choix:[{t:"On laisse la bôme passer librement, c'est plus doux.",v:"libre"},
+         {t:"On borde l'écoute de GV à fond avant, puis on la relâche après.",v:"borde2"},
+         {t:"On bloque l'écoute pour empêcher la bôme de bouger.",v:"bloque"}]},
+ libre:{cons:`<span class="tag">Ce qui se passe</span>La bôme part en roue libre sur toute sa course et arrive en bout d'écoute à pleine vitesse. Le bruit s'entend d'un mille. Le gréement encaisse mal, les têtes encore moins.`,
+   txt:`<p>On borde l'écoute de grand-voile à fond <em>avant</em> de passer : la bôme n'a alors que quelques centimètres à parcourir. Une fois de l'autre côté, on la relâche progressivement.</p>
+   <p>Et l'ordre qui compte plus que tous les autres : <strong>« Attention à la bôme »</strong>, lancé fort, avant. On s'accroupit d'abord, on regarde ensuite.</p>`,suite:"final"},
+ bloque:{cons:`<span class="tag">Ce qui se passe</span>La bôme est bloquée, le vent passe quand même de l'autre côté, et le bateau se couche brutalement au lieu de tourner.`,
+   txt:`<p>On borde l'écoute de grand-voile à fond avant de passer — border n'est pas bloquer. La bôme reste libre de traverser, mais elle n'a que quelques centimètres à parcourir. Une fois de l'autre côté, on relâche progressivement.</p>
+   <p>Et l'ordre qui compte plus que tous les autres : <strong>« Attention à la bôme »</strong>, lancé fort, avant. On s'accroupit d'abord, on regarde ensuite.</p>`,suite:"final"},
+ borde2:{cons:`<span class="tag">Ce qui se passe</span>La bôme traverse sur quelques centimètres au lieu de trois mètres. Un claquement sec, et c'est passé.`,
+   txt:`<p>C'est toute la technique : raccourcir la course avant, la rendre ensuite. Le vent fait le même travail, mais il ne peut plus lancer la bôme.</p>
+   <p>Et l'ordre qui compte plus que tous les autres : <strong>« Attention à la bôme »</strong>, lancé fort, avant. On s'accroupit d'abord, on regarde ensuite.</p>`,suite:"final"},
+ final:{txt:`<p>Deux manœuvres, deux façons de changer d'amures. Le virement passe par l'avant : lent, sûr, coûteux en vitesse. L'empannage passe par l'arrière : rapide, économe, et dangereux si on l'improvise.</p>
+   <p>Le reste de la journée s'écoule en tranches d'horizon. Un bord de près jusqu'à la pointe, un virement, un long travers, un empannage propre avant le cap, et le largue qui ramène tout le monde vers la côte.</p>
+   <p>Personne n'a annoncé les allures à voix haute. Elles se sont enchaînées, et tu les as reconnues au passage. C'est comme ça qu'on sait qu'un vocabulaire est entré.</p>`,suite:"atelier"},
+ atelier:{atelier:true},
+ epreuve:{epreuve:true}
+  },
+  Q:[
+   {q:"Une allure, c'est…",r:["la vitesse du bateau","l'angle entre l'axe du bateau et le lit du vent","le cap au compas"],b:1},
+   {q:"Vent à 90° de l'axe du bateau, on est…",r:["au près","au travers","au vent arrière"],b:1},
+   {q:"Le vent vient de tribord. On est donc…",r:["bâbord amures","tribord amures","vent debout"],b:1},
+   {q:"Plus on abat, plus…",r:["on borde les voiles","on choque les voiles","on remonte au vent"],b:1},
+   {q:"Louvoyer, c'est…",r:["remonter au vent en zigzag par bords successifs","naviguer au vent arrière","affaler les voiles"],b:0},
+   {q:"Dans un virement de bord, c'est…",r:["l'étrave qui traverse le lit du vent","l'arrière qui traverse le lit du vent","le bateau qui s'arrête"],b:0},
+   {q:"Avant d'empanner, sur l'écoute de grand-voile, on…",r:["la borde à fond, puis on la relâche après","la choque à fond pour laisser passer la bôme","ne touche à rien"],b:0},
+   {q:"L'allure la plus piégeuse, où la bôme peut traverser sans prévenir, est…",r:["le près","le travers","le vent arrière"],b:2},
+   {q:"En regardant un voilier de loin, la bôme sortie à bâbord indique…",r:["qu'il est tribord amures","qu'il est bâbord amures","qu'il est vent debout"],b:0}
+  ],
+  seuil:8,
+  fin:"Tu sais lire une allure et anticiper un changement de bord. Chapitre 5 : <em>le retour au port</em> — l'endroit où l'on casse le plus de bateaux, et les trois nœuds qui servent tous les jours."
+ },
+
+/* ============================== CHAPITRE 5 ============================== */
+ 5:{titre:"Le retour au port", badge:"Rentrer propre", depart:"titre", suivant:null,
+  P:{
+ titre:{titre:true,txt:`<h1>Le retour au port<span class="sous">Où l'on découvre que les trois cents derniers mètres sont les plus délicats de la journée.</span></h1>
+   <p>La mer est grande. Le port ne l'est pas.</p>
+   <p>C'est là que les bateaux s'abîment, presque jamais au large. Trois cents mètres, cinq minutes, et une attention d'un tout autre ordre que celle du reste de la journée.</p>`,suite:"pourquoi"},
+ pourquoi:{txt:`<p>Trois choses changent d'un coup en franchissant la digue.</p>
+   <div class="liste">
+     <div><b>l'espace</b><span>quelques mètres de marge, des voisins immobiles et coûteux</span></div>
+     <div><b>le vent</b><span>coupé par les bâtiments, il tourne et rafale sans prévenir</span></div>
+     <div><b>l'${M("erre","erre")}</b><span>cinq tonnes qui ne s'arrêtent pas quand on débraye</span></div>
+   </div>
+   <p>Aucune des trois ne se règle sur le moment. Toutes se règlent avant.</p>`,suite:"briefing"},
+ briefing:{txt:`<p>D'où le ${M("briefing")}, fait au large, moteur au ralenti, tout le monde tourné vers le skipper.</p>
+   <p>Qui tient quoi. Qui va où. Qui parle. Et surtout : ce qu'on fait si ça ne se passe pas comme prévu — parce qu'une entrée au port se rate une fois sur cinq, et qu'une entrée ratée proprement ne coûte rien du tout.</p>
+   <div class="regle"><span class="tag">La règle du chapitre</span>
+   <p><strong>Dans le port, on n'improvise pas ; on exécute.</strong> Toute la réflexion a eu lieu dehors, au calme, quand on pouvait encore s'entendre parler.</p></div>
+   <p>Pendant le briefing, on sort aussi les ${M("defense","parbats")} et on prépare les amarres — lovées, prêtes à filer, du bon côté.</p>`,suite:"place"},
+ place:{txt:`<p>Sur A'Why, en Méditerranée, la place se prend en marche arrière. On recule vers le quai, on attrape la ${M("pendille")} sur l'avant, et on l'étarque pour retenir le bateau loin du béton pendant que les amarres arrière se frappent.</p>
+   <p>Le bateau approche. Un équipier saute sur le ponton avec une amarre. Enfin — il s'apprête à sauter.</p>`,
+  choix:[{t:"Il saute dès que le ponton est à portée, pour ne pas rater.",v:"saute"},
+         {t:"Il attend que le bateau soit arrêté et enjambe.",v:"enjambe"},
+         {t:"Il se place entre le bateau et le ponton pour amortir.",v:"amortit"}]},
+ saute:{cons:`<span class="tag">Ce qui se passe</span>Il atterrit un pied sur le bord, l'amarre dans une main, et se rattrape de justesse. Cette fois ça passe. Une fois sur dix, ça ne passe pas.`,
+   txt:`<p>On ne saute jamais. On enjambe, une fois l'erre cassée, avec les deux mains disponibles. Personne à bord n'a jamais gagné une manœuvre en sautant — mais plusieurs y ont perdu une cheville.</p>`,suite:"securite"},
+ amortit:{cons:`<span class="tag">Ce qui se passe</span>Cinq tonnes contre une jambe. Le calcul est vite fait, et c'est l'accident le plus fréquent des ports de plaisance.`,
+   txt:`<p><strong>Jamais un corps entre le bateau et le quai.</strong> Jamais une main non plus, ni entre deux coques, ni entre l'amarre et le taquet. Le bateau, lui, a des parbats ; c'est leur métier.</p>`,suite:"securite"},
+ enjambe:{cons:`<span class="tag">Ce qui se passe</span>Le bateau s'immobilise, l'équipier passe tranquillement, amarre en main. Personne n'a retenu son souffle.`,
+   txt:`<p>C'est la bonne façon, et elle suppose la précédente : casser l'erre avant. Un bateau qu'on doit rattraper à la force des bras est un bateau qui arrivait trop vite.</p>`,suite:"securite"},
+ securite:{txt:`<p>Trois interdits, et ils ne souffrent pas d'exception.</p>
+   <div class="liste">
+     <div><b>jamais</b><span>un corps ou une main entre le bateau et le quai, ou entre deux coques</span></div>
+     <div><b>jamais</b><span>retenir un bateau qui bouge à la force des bras — on le laisse toucher</span></div>
+     <div><b>jamais</b><span>un pied dans une boucle de cordage posée sur le pont</span></div>
+   </div>
+   <p>Le troisième surprend, et c'est le plus vicieux : une amarre qui part sous tension emmène ce qu'elle attrape. On garde les bouts lovés, pas en tas.</p>`,suite:"noeuds"},
+ noeuds:{txt:`<p>Reste ce qui se passe une fois le bateau à quai : attacher. Il existe des centaines de nœuds marins. Trois suffisent pour toute une saison, et ils s'apprennent à terre, tranquillement, sur un bout de cordage.</p>
+   <div class="liste">
+     <div><b>une boucle</b><span>${M("noeudchaise","le nœud de chaise")} — ne se serre jamais, se défait toujours</span></div>
+     <div><b>un T</b><span>${M("tourtaquet","le tour de taquet")} — pour frapper une amarre</span></div>
+     <div><b>un montant</b><span>${M("noeudcabestan","le nœud de cabestan")} — pour accrocher un parbat</span></div>
+   </div>
+   <p>Un par situation, et pas de recouvrement : une boucle au bout d'un bout, un cordage sur un taquet, un cordage sur un barreau. Ouvre les trois fiches, puis fais-les vingt fois chacun. C'est le seul geste de ce parcours qui ne s'apprend pas en lisant.</p>`,suite:"test"},
+ test:{txt:`<p>Le skipper te tend un bout et désigne le chandelier du milieu.</p>
+   <p class="dit">« Accroche-moi le parbat là-dessus. »</p>`,
+  choix:[{t:"Un nœud de chaise autour du chandelier.",v:"chaise"},
+         {t:"Un nœud de cabestan.",v:"cabestan"},
+         {t:"Trois nœuds simples serrés à fond.",v:"simple"}]},
+ chaise:{cons:`<span class="tag">Ce qui se passe</span>Ça tient. Mais la boucle coulisse le long du chandelier et le parbat finit par ne plus être en face de ce qu'il protège.`,
+   txt:`<p>Le chaise fait une boucle <em>fixe</em>, il ne serre pas ce qu'il entoure — c'est justement sa qualité, et ici son défaut. Sur un montant, on veut un nœud qui pince : le cabestan.</p>`,suite:"final"},
+ simple:{cons:`<span class="tag">Ce qui se passe</span>Ça tient très bien. Trop bien : ce soir, sous la pluie, avec les doigts froids, tu y passeras dix minutes et tu finiras au couteau.`,
+   txt:`<p>Un nœud marin se juge autant à la façon dont il se défait qu'à celle dont il tient. Sur un montant, le cabestan se fait d'une main et se dénoue d'un geste.</p>`,suite:"final"},
+ cabestan:{cons:`<span class="tag">Ce qui se passe</span>Deux boucles croisées, le parbat est pendu, et tu peux le remonter de dix centimètres sans tout refaire.`,
+   txt:`<p>Le bon outil pour la bonne situation. Le cabestan pince tant que la tension est constante — parfait pour un parbat, à ne jamais utiliser pour retenir une personne.</p>`,suite:"final"},
+ final:{txt:`<p>Les amarres sont frappées, les parbats en place, la pendille étarquée. Le moteur se tait. Le bateau repose exactement où il était ce matin, et personne ne s'est fait mal.</p>
+   <p class="dit">« Bon. Un café ? »</p>
+   <p>Cinq chapitres plus tôt, tu ne savais pas par où monter. Rien de ce que tu as appris ici ne fera de toi un marin — ça, c'est la mer qui s'en charge, et il lui faut du temps. Mais tu peux désormais suivre ce qui se dit, faire ce qu'on te demande, et poser des questions utiles.</p>
+   <p>C'était tout l'objet du voyage. À bord, maintenant.</p>`,suite:"atelier"},
+ atelier:{atelier:true},
+ epreuve:{epreuve:true}
+  },
+  Q:[
+   {q:"L'erre d'un bateau, c'est…",r:["sa vitesse résiduelle une fois le moteur débrayé","son erreur de cap","la zone de manœuvre du port"],b:0},
+   {q:"Le briefing d'entrée au port se fait…",r:["au large, avant d'entrer","à l'approche du ponton","une fois amarré"],b:0},
+   {q:"Un équipier doit rejoindre le ponton. Il…",r:["saute dès qu'il peut","attend l'arrêt et enjambe","se glisse entre le bateau et le quai"],b:1},
+   {q:"Le nœud qui fait une boucle qui ne se serre jamais est…",r:["le nœud de chaise","le nœud de cabestan","le tour de taquet"],b:0},
+   {q:"Pour accrocher un parbat à un chandelier, on utilise…",r:["un nœud de chaise","un nœud de cabestan","un nœud simple"],b:1},
+   {q:"Une amarre se frappe sur un taquet…",r:["par un nœud bien serré","par un tour mort puis des huit croisés","en la coinçant sous la base"],b:1},
+   {q:"Un bateau arrive un peu trop vite sur le ponton. On…",r:["le retient à la force des bras","le laisse toucher les parbats","saute pour l'attraper"],b:1},
+   {q:"Pourquoi les bouts restent-ils lovés sur le pont ?",r:["par souci d'esthétique","parce qu'une amarre qui part sous tension emmène ce qu'elle attrape","pour gagner de la place"],b:1}
+  ],
+  seuil:7,
+  fin:"Tu sais rentrer sans casse et frapper tes trois nœuds. Le parcours est terminé — la suite se passe à bord, et elle commence par la question habituelle : d'où vient le vent ?"
+ }
+};
+
+/* =====================================================================
+   MOTEUR
+   ===================================================================== */
+const deck=document.getElementById("deck");
+let chapCourant=null,pages=[],idx=0;
+const acquis=new Set(),badgesObtenus=new Set();
+
+function apprendre(id){
+ acquis.add(id);document.getElementById("j-mots").textContent=acquis.size;
+ document.querySelectorAll('.mot[data-id="'+id+'"]').forEach(m=>m.classList.add("vu"));
+}
+function ouvrirFiche(id){
+ const g=G[id];
+ document.getElementById("f-cat").textContent=g.c;
+ document.getElementById("f-titre").textContent=g.t;
+ document.getElementById("f-def").textContent=g.d;
+ document.getElementById("f-astuce").textContent=g.a;
+ document.getElementById("fiche").classList.add("on");
+ document.getElementById("voile-fond").classList.add("on");
+ apprendre(id);
+}
+function fermerFiche(){document.getElementById("fiche").classList.remove("on");document.getElementById("voile-fond").classList.remove("on")}
+document.getElementById("fermer").onclick=fermerFiche;
+document.getElementById("voile-fond").onclick=fermerFiche;
+
+/* --- carnet --- */
+const carnetVue=document.getElementById("carnet-vue");
+function ouvrirCarnet(){
+ let h="";
+ Object.keys(TERMES).forEach(num=>{
+  h+=`<div class="carnet-groupe">Chapitre ${num} — ${CHAP[num].titre}</div>`;
+  let groupe="";
+  TERMES[num].forEach(id=>{
+   if(G[id].c!==groupe){groupe=G[id].c;h+=`<div class="carnet-groupe" style="opacity:.7">${groupe}</div>`}
+   const vu=acquis.has(id);
+   h+=`<div class="carnet-item${vu?"":" pas-vu"}" data-id="${id}"><b>${G[id].t}</b>${vu?"":"<em>pas encore rencontré</em>"}</div>`;
+  });
+ });
+ document.getElementById("carnet-corps").innerHTML=h;
+ document.getElementById("carnet-note").textContent=`${acquis.size} / ${Object.keys(G).length} termes`;
+ document.querySelectorAll(".carnet-item").forEach(el=>el.onclick=()=>ouvrirFiche(el.dataset.id));
+ carnetVue.classList.add("on");
+}
+document.getElementById("btn-carnet").onclick=ouvrirCarnet;
+document.getElementById("carnet-fermer").onclick=()=>carnetVue.classList.remove("on");
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){fermerFiche();carnetVue.classList.remove("on")}});
+
+/* --- chapitres --- */
+function ouvrirChapitre(num){
+ num=String(num);chapCourant=num;
+ deck.innerHTML="";pages=[];idx=0;
+ document.getElementById("menu-chap").value=num;
+ rendre(CHAP[num].depart);
+}
+document.getElementById("menu-chap").onchange=e=>ouvrirChapitre(e.target.value);
+
+function rendre(id){
+ const c=CHAP[chapCourant],p=c.P[id],el=document.createElement("div");el.className="page";
+ let h="";
+ if(!p.titre&&!p.atelier&&!p.epreuve) h+=`<div class="folio">Chapitre ${chapCourant} — ${c.titre}</div>`;
+ if(p.cons) h+=`<div class="consequence">${p.cons}</div>`;
+ h+=p.txt||"";
+ if(p.choix){h+='<div class="choix">';p.choix.forEach((ch,i)=>h+=`<button data-lettre="${"ABC"[i]}" data-v="${ch.v}">${ch.t}</button>`);h+='</div>'}
+ el.innerHTML=h;
+ if(p.choix) el.querySelectorAll(".choix button").forEach(b=>b.onclick=()=>{
+  el.querySelectorAll(".choix button").forEach(x=>x.disabled=true);
+  b.classList.add("choisi");rendre(b.dataset.v);
+ });
+ if(p.atelier) el.appendChild(corpsAtelier());
+ if(p.epreuve) el.appendChild(corpsEpreuve());
+ deck.appendChild(el);pages.push({id,el});
+ aller(pages.length-1,false);
+}
+function aller(n,retour){
+ if(n<0||n>=pages.length)return;
+ pages.forEach(p=>p.el.classList.remove("actif","retour"));
+ const pg=pages[n];if(retour)pg.el.classList.add("retour");
+ pg.el.classList.add("actif");idx=n;
+ window.scrollTo({top:0,behavior:"smooth"});majNav();
+}
+function majNav(){
+ const p=CHAP[chapCourant].P[pages[idx].id],dernier=(idx===pages.length-1);
+ document.getElementById("prec").disabled=(idx===0);
+ document.getElementById("suiv").disabled=dernier&&(!p.suite||!!p.choix);
+ document.getElementById("compte").textContent=`page ${idx+1} / ${pages.length}`;
+}
+document.getElementById("prec").onclick=()=>aller(idx-1,true);
+document.getElementById("suiv").onclick=()=>{
+ if(idx<pages.length-1){aller(idx+1,false);return}
+ const p=CHAP[chapCourant].P[pages[idx].id];if(p.suite)rendre(p.suite);
+};
+
+/* --- atelier : indice → mot, groupe par groupe --- */
+function melange(a){return a.slice().sort(()=>Math.random()-.5)}
+let file=[],reussis=0,rates=0;
+function corpsAtelier(){
+ const c=CHAP[chapCourant],liste=TERMES[chapCourant];
+ const d=document.createElement("div");
+ d.innerHTML=`<div class="folio">Atelier — déverrouillé</div>
+  <h1 style="font-size:30px">Retrouve les mots</h1>
+  <p>${liste.length} indices, dans l'ordre des groupes du chapitre. On te donne la description, tu retrouves le mot. Deux erreurs et on te montre.</p>
+  <div id="atelier-corps"></div>
+  <div style="margin-top:14px"><button class="act" id="btn-atelier">Commencer l'atelier</button></div>
+  <p class="jauge-atelier" id="score-atelier"></p>`;
+ setTimeout(()=>{document.getElementById("btn-atelier").onclick=()=>{
+  const groupes=[];liste.forEach(id=>{if(groupes.indexOf(G[id].c)<0)groupes.push(G[id].c)});
+  file=[];groupes.forEach(g=>{melange(liste.filter(id=>G[id].c===g)).forEach(id=>file.push(id))});
+  reussis=0;rates=0;
+  document.getElementById("btn-atelier").style.display="none";
+  prochain();
+ }},0);
+ return d;
+}
+function prochain(){
+ const liste=TERMES[chapCourant],corps=document.getElementById("atelier-corps");
+ if(!file.length){
+  corps.innerHTML=`<div class="indice"><p><strong>Atelier terminé.</strong></p></div>`;
+  document.getElementById("score-atelier").textContent=`${reussis} trouvés du premier coup sur ${liste.length}.`;
+  if(!pages.some(p=>p.id==="epreuve")) rendre("epreuve");
+  return;
+ }
+ const cible=file[0];rates=0;
+ const autres=melange(liste.filter(id=>id!==cible&&G[id].c===G[cible].c))
+   .concat(melange(liste.filter(id=>id!==cible&&G[id].c!==G[cible].c)));
+ const props=melange([cible,autres[0],autres[1],autres[2]].filter(Boolean));
+ corps.innerHTML=`<div class="indice"><span class="groupe">${G[cible].c} · ${liste.length-file.length+1}/${liste.length}</span>
+   <p>${G[cible].q}</p></div>
+   <div class="props">${props.map(id=>`<button data-id="${id}">${G[id].t}</button>`).join("")}</div>`;
+ corps.querySelectorAll(".props button").forEach(b=>b.onclick=()=>repondre(b,cible));
+ document.getElementById("score-atelier").textContent="";
+}
+function repondre(btn,cible){
+ const corps=document.getElementById("atelier-corps");
+ if(btn.dataset.id===cible){
+  btn.classList.add("juste");
+  corps.querySelectorAll(".props button").forEach(b=>b.disabled=true);
+  if(rates===0)reussis++;
+  apprendre(cible);
+  setTimeout(()=>{file.shift();prochain()},650);
+ }else{
+  btn.classList.add("faux");btn.disabled=true;rates++;
+  if(rates>=2){
+   const bon=corps.querySelector('.props button[data-id="'+cible+'"]');
+   bon.classList.add("juste");
+   corps.querySelectorAll(".props button").forEach(b=>b.disabled=true);
+   apprendre(cible);
+   setTimeout(()=>{file.shift();prochain()},1100);
+  }
+ }
+}
+
+/* --- épreuve --- */
+function corpsEpreuve(){
+ const c=CHAP[chapCourant],d=document.createElement("div");
+ let h=`<div class="folio">Épreuve — déverrouillée</div><h1 style="font-size:30px">${c.Q.length} questions</h1>
+  <p>${c.seuil} bonnes réponses sur ${c.Q.length} et tu as ton badge.</p>`;
+ c.Q.forEach((q,i)=>{h+=`<div class="qcm"><p>${i+1}. ${q.q}</p>`;
+  q.r.forEach((r,j)=>h+=`<label><input type="radio" name="q${i}" value="${j}">${r}</label>`);h+=`</div>`});
+ h+=`<div><button class="act" id="btn-epreuve">Valider l'épreuve</button></div><div id="verdict"></div>`;
+ d.innerHTML=h;
+ setTimeout(()=>{document.getElementById("btn-epreuve").onclick=corriger},0);
+ return d;
+}
+function corriger(){
+ const c=CHAP[chapCourant];let n=0,manque=[];
+ c.Q.forEach((q,i)=>{const r=document.querySelector(`input[name="q${i}"]:checked`);
+  if(r&&+r.value===q.b)n++;else manque.push(i+1)});
+ const v=document.getElementById("verdict");
+ if(n>=c.seuil){
+  const suiv=c.suivant;
+  v.innerHTML=`<div class="badge"><div class="sceau">${c.badge}</div>
+   <p style="font-family:var(--mono);font-size:13px">${n} / ${c.Q.length} — badge ${chapCourant} sur 5</p>
+   <p>${c.fin}</p>
+   ${suiv?`<div style="margin-top:18px"><button class="act" id="btn-suivant">Chapitre ${suiv} →</button></div>`
+         :`<div style="margin-top:18px"><button class="act" id="btn-recap">Ouvrir le carnet complet</button></div>`}
+   </div>`;
+  badgesObtenus.add(chapCourant);
+  document.getElementById("j-badges").textContent=badgesObtenus.size;
+  document.getElementById("btn-epreuve").style.display="none";
+  if(suiv){document.getElementById("btn-suivant").onclick=()=>ouvrirChapitre(suiv)}
+  else{document.getElementById("btn-recap").onclick=ouvrirCarnet}
+ }else{
+  v.innerHTML=`<p style="font-family:var(--mono);font-size:14px;color:var(--magenta)">${n} / ${c.Q.length} — il en faut ${c.seuil}. À revoir : question ${manque.join(", ")}. Rouvre le carnet, relis les fiches, retente.</p>`;
+ }
+}
+
+document.getElementById("j-total").textContent=Object.keys(G).length;
+ouvrirChapitre(1);
+</script>
+
+<script>
+/* ============ PWA : installation et fonctionnement hors ligne ============ */
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("sw.js").catch(e=>console.log("SW non enregistré :",e));
+ });
+}
+let invite=null;
+const btnInstaller=document.getElementById("btn-installer");
+window.addEventListener("beforeinstallprompt",e=>{
+ e.preventDefault();invite=e;btnInstaller.hidden=false;
+});
+btnInstaller.onclick=async()=>{
+ if(!invite)return;
+ btnInstaller.hidden=true;
+ invite.prompt();
+ await invite.userChoice;
+ invite=null;
+};
+window.addEventListener("appinstalled",()=>{btnInstaller.hidden=true;invite=null});
+</script>
+</body>
+</html>
