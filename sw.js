@@ -3,7 +3,7 @@
    L'appli doit fonctionner entièrement hors ligne : au port, sur un ponton,
    la 4G est une denrée rare. */
 
-const CACHE = "mousse-en-herbe-v2";
+const CACHE = "mousse-en-herbe-v3";
 
 const COQUE = [
   "./",
